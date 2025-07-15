@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <body>
+    <!-- Homepage -->
+    <div id="homepage" class="page">
+        <div class="header">
+            <div class="logo">
+                <span>❤️</span>
+                <span>Save Life</span>
+            </div>
+            <div class="nav-buttons">
+                <button class="btn btn-outline" onclick="showPage('admin-login')">Admin Login</button>
+                <button class="btn btn-outline" onclick="showPage('hospital-login')">Hospital Login</button>
+            </div>
+        </div>
+
+        <div class="container">
+            <div style="text-align: center; margin-bottom: 50px;">
+                <h1 style="color: #333; margin-bottom: 20px;">Connecting Blood Donors with Hospitals</h1>
+                <p style="color: #666; font-size: 18px; max-width: 600px; margin: 0 auto;">
+                    Save Life is a platform that bridges the gap between blood donors and hospitals in need. Get instant alerts when your blood type is needed nearby.
+                </p>
+            </div>
+
+            <div class="main-content">
+                <div class="registration-card">
+                    <div class="icon">🏥</div>
+                    <h3>Hospital Registration</h3>
+                    <p>Register your hospital and manage blood donations more efficiently.</p>
+                    <ul>
+                        <li>Get continuous communication</li>
+                        <li>Secure and approve hospital registrations with RBC certificates</li>
+                        <li>Available Donors List</li>
+                    </ul>
+                    <button class="btn btn-primary" onclick="showPage('hospital-register')">Hospital Registration</button>
+                </div>
+
+                <div class="registration-card">
+                    <div class="icon">👤</div>
+                    <h3>Donor Registration</h3>
+                    <p>Join our network of life-saving blood donors. Get alerts when your blood type is needed nearby.</p>
+                    <ul>
+                        <li>Online registration process directly</li>
+                        <li>Registration successful; You'll receive alerts when your blood type is needed</li>
+                    </ul>
+                    <button class="btn btn-secondary" onclick="showPage('donor-register')">Donor Registration</button>
+                </div>
+            </div>
+
+            <div class="how-it-works">
+                <h2>How It Works</h2>
+                <div class="steps">
+                    <div class="step">
+                        <div class="step-number">1</div>
+                        <h3>Register</h3>
+                        <p>Hospitals and donors register on our platform</p>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">2</div>
+                        <h3>Alert</h3>
+                        <p>Hospitals request blood, donors get instant alerts</p>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">3</div>
+                        <h3>Connect</h3>
+                        <p>Donors respond and hospitals connect directly</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            © 2025 Save Life. Connecting donors with hospitals to save lives.
+        </div>
+    </div>
+
+    <!-- Admin Login -->
+    <div id="admin-login" class="page hidden">
+        <div class="container">
+            <div class="login-form">
+                <div class="form-title">
+                    <span style="font-size: 40px;">🔐</span>
+                    <h2>Admin Login</h2>
+                    <p>Access the admin panel to manage hospital registrations</p>
+                </div>
+                <form onsubmit="adminLogin(event)">
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" id="admin-email" placeholder="admin@savelife.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Password</label>
+                        <input type="password" id="admin-password" placeholder="Enter password" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="width: 100%;">Sign In</button>
+                </form>
+                <div style="text-align: center; margin-top: 20px;">
+                    <a href="#" onclick="showPage('homepage')" style="color: #3498db; text-decoration: none;">Back to home</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hospital Login -->
+    <div id="hospital-login" class="page hidden">
+        <div class="container">
+            <div class="login-form">
+                <div class="form-title">
+                    <span style="font-size: 40px;">🏥</span>
+                    <h2>Hospital Login</h2>
+                    <p>Access your hospital dashboard to request blood</p>
+                </div>
+                <form onsubmit="hospitalLogin(event)">
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" id="hospital-email" placeholder="hospital@example.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Password</label>
+                        <input type="password" id="hospital-password" placeholder="Enter password" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="width: 100%;">Sign In</button>
+                </form>
+                <div style="text-align: center; margin-top: 20px;">
+                    <p>Don't have an account? <a href="#" onclick="showPage('hospital-register')" style="color: #3498db; text-decoration: none;">Register here</a></p>
+                    <a href="#" onclick="showPage('homepage')" style="color: #3498db; text-decoration: none;">Back to home</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Donor Registration -->
+
+    
+    <div id="donor-register" class="page hidden">
+        <div class="container">
+            <div class="register-form">
+                <div class="form-title">
+                    <span style="font-size: 40px;">👤</span>
+                    <h2>Donor Registration</h2>
+                    <p>Join our network of life-saving blood donors. Get alerts when your blood type is needed nearby.</p>
+                </div>
+                <form onsubmit="donorRegister(event)">
+                    <div class="form-group">
+                        <label>Full Name *</label>
+                        <input type="text" placeholder="Enter your full name" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Phone Number</label>
+                        <input type="tel" placeholder="+250000000000">
+                    </div>
+                    <div class="form-group">
+                        <label>WhatsApp Number (Optional)</label>
+                        <input type="tel" placeholder="+250000000000">
+                        <small style="color: #666;">Leave blank if same as phone number</small>
+                    </div>
+                    <div class="form-group">
+                        <label>Blood Type</label>
+                        <select required>
+                            <option value="">Select your blood type</option>
+                            <option value="A+">A+</option>
+                            <option value="A-">A-</option>
+                            <option value="B+">B+</option>
+                            <option value="B-">B-</option>
+                            <option value="AB+">AB+</option>
+                            <option value="AB-">AB-</option>
+                            <option value="O+">O+</option>
+                            <option value="O-">O-</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Location</label>
+                        <textarea placeholder="Enter your address (city, state, street)"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-secondary" style="width: 100%;">Register as Donor</button>
+                </form>
+                <div style="text-align: center; margin-top: 20px;">
+                    <a href="#" onclick="showPage('homepage')" style="color: #3498db; text-decoration: none;">Back to home</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Hospital Registration -->
+
+
+    <div id="hospital-register" class="page hidden">
+        <div class="container">
+            <div class="register-form">
+                <div class="form-title">
+                    <span style="font-size: 40px;">🏥</span>
+                    <h2>Hospital Registration</h2>
+                    <p>Register your hospital to access blood donors. Your registration will be reviewed by our admin team.</p>
+                </div>
+                <form onsubmit="hospitalRegister(event)">
+                    <div class="form-group">
+                        <label>Hospital Name *</label>
+                        <input type="text" placeholder="Enter hospital name" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Email Address *</label>
+                        <input type="email" placeholder="hospital@example.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Password *</label>
+                        <input type="password" placeholder="Create a secure password (min 8 characters)" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Hospital Location *</label>
+                        <textarea placeholder="Enter complete hospital address with city and state" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>RBC Certificate *</label>
+                        <div class="upload-area" onclick="document.getElementById('rbc-file').click()">
+                            <p>📄 Click to upload RBC certificate</p>
+                            <small>(PDF, JPG, or PNG files)</small>
+                            <input type="file" id="rbc-file" accept=".pdf,.jpg,.jpeg,.png" style="display: none;">
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="width: 100%;">Submit Registration</button>
+                </form>
+                <div style="text-align: center; margin-top: 20px;">
+                    <small>* Required fields. Your registration will be reviewed by our admin team. You'll receive an email confirmation once approved.</small>
+                    <br><br>
+                    <a href="#" onclick="showPage('homepage')" style="color: #3498db; text-decoration: none;">Back to home</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Hospital Dashboard -->
+
+
+    <div id="hospital-dashboard" class="page hidden">
+        <div class="header">
+            <div class="logo">
+                <span>🏥</span>
+                <span>Hospital Dashboard</span>
+            </div>
+            <div class="nav-buttons">
+                <button class="btn btn-primary" onclick="showBloodRequestModal()">Request Blood</button>
+                <button class="btn btn-outline" onclick="logout()">Logout</button>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="dashboard">
+                <div class="stat-card red">
+                    <div class="icon">🩸</div>
+                    <div class="number">0</div>
+                    <div class="label">Total Requests</div>
+                </div>
+                <div class="stat-card orange">
+                    <div class="icon">⚠️</div>
+                    <div class="number">0</div>
+                    <div class="label">Pending Requests</div>
+                </div>
+                <div class="stat-card blue">
+                    <div class="icon">👥</div>
+                    <div class="number">0</div>
+                    <div class="label">Available Donors</div>
+                </div>
+                <div class="stat-card green">
+                    <div class="icon">✅</div>
+                    <div class="number">0</div>
+                    <div class="label">Successful Matches</div>
+                </div>
+            </div>
+
+            <div class="donors-section">
+                <h2>Available Donors</h2>
+                <div class="no-donors">
+                    <span style="font-size: 60px;">👥</span>
+                    <p>No A+ donors available</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Admin Dashboard -->
+
+
+    <div id="admin-dashboard" class="page hidden">
+        <div class="header">
+            <div class="logo">
+                <span>🔐</span>
+                <span>Admin Dashboard</span>
+            </div>
+            <div class="nav-buttons">
+                <button class="btn btn-outline" onclick="logout()">Logout</button>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="dashboard">
+                <div class="stat-card red">
+                    <div class="icon">🏥</div>
+                    <div class="number">0</div>
+                    <div class="label">Total Hospitals</div>
+                </div>
+                <div class="stat-card orange">
+                    <div class="icon">⏳</div>
+                    <div class="number">0</div>
+                    <div class="label">Pending Approvals</div>
+                </div>
+                <div class="stat-card blue">
+                    <div class="icon">👥</div>
+                    <div class="number">0</div>
+                    <div class="label">Total Donors</div>
+                </div>
+                <div class="stat-card green">
+                    <div class="icon">📊</div>
+                    <div class="number">0</div>
+                    <div class="label">Blood Requests</div>
+                </div>
+            </div>
+
+            <div class="donors-section">
+                <h2>Pending Hospital Registrations</h2>
+                <p style="margin-bottom: 20px; color: #666;">Review and approve hospital registrations with RBC certificates</p>
+                <div class="no-donors">
+                    <span style="font-size: 60px;">📋</span>
+                    <p>No pending hospital registrations</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Blood Request Modal -->
+
+    <div id="blood-request-modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2>Create Blood Request</h2>
+            <p style="margin-bottom: 20px; color: #666;">Request blood from nearby donors</p>
+            <form onsubmit="createBloodRequest(event)">
+                <div class="form-group">
+                    <label>Blood Type</label>
+                    <select required>
+                        <option value="">Select blood type</option>
+                        <option value="A+">A+</option>
+                        <option value="A-">A-</option>
+                        <option value="B+">B+</option>
+                        <option value="B-">B-</option>
+                        <option value="AB+">AB+</option>
+                        <option value="AB-">AB-</option>
+                        <option value="O+">O+</option>
+                        <option value="O-">O-</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Urgency Level</label>
+                    <select required>
+                        <option value="">Select urgency</option>
+                        <option value="Low">Low</option>
+                        <option value="Medium">Medium</option>
+                        <option value="High">High</option>
+                        <option value="Critical">Critical</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Quantity Needed (Units)</label>
+                    <input type="number" min="1" max="10" required>
+                </div>
+                <div class="form-group">
+                    <label>Additional Notes (Optional)</label>
+                    <textarea placeholder="Any additional information..."></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">Send Alert to Donors</button>
+            </form>
+        </div>
+    </div>
+    <script src="script.js"></script>
+
+</body>
+</html>
