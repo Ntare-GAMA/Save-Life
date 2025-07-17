@@ -394,3 +394,48 @@ function initializeSampleData() {
 document.addEventListener('DOMContentLoaded', function() {
     initializeSampleData();
 });
+
+// Fetch and display Kigali hospitals on homepage
+function loadKigaliHospitals() {
+    fetch('kigali_hospitals.json')
+        .then(response => response.json())
+        .then(hospitals => {
+            const listDiv = document.getElementById('kigali-hospitals-list');
+            if (!listDiv) return;
+            if (!hospitals.length) {
+                listDiv.innerHTML = '<p>No hospitals found.</p>';
+                return;
+            }
+            let html = '<ul class="hospital-list">';
+            hospitals.forEach(hospital => {
+                html += `<li class="hospital-item">
+                    <strong>${hospital.name}</strong><br>
+                    <span>${hospital.address}</span><br>
+                    <span>Contact: ${hospital.contact}</span>
+                </li>`;
+            });
+            html += '</ul>';
+            listDiv.innerHTML = html;
+        })
+        .catch(() => {
+            const listDiv = document.getElementById('kigali-hospitals-list');
+            if (listDiv) listDiv.innerHTML = '<p>Could not load hospital data.</p>';
+        });
+}
+
+// Show page and load hospitals if homepage
+const originalShowPage = showPage;
+showPage = function(pageId) {
+    originalShowPage(pageId);
+    if (pageId === 'homepage') {
+        loadKigaliHospitals();
+    }
+};
+
+// Load hospitals on initial page load if homepage is visible
+window.addEventListener('DOMContentLoaded', function() {
+    const homepage = document.getElementById('homepage');
+    if (homepage && !homepage.classList.contains('hidden')) {
+        loadKigaliHospitals();
+    }
+});

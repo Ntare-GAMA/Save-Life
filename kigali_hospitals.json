@@ -1,0 +1,27 @@
+[
+  {
+    "name": "Kigali University Teaching Hospital",
+    "address": "KN 4 Ave, Kigali",
+    "contact": "+250 788 123 456"
+  },
+  {
+    "name": "King Faisal Hospital",
+    "address": "KG 544 St, Kigali",
+    "contact": "+250 788 654 321"
+  },
+  {
+    "name": "CHUK (Centre Hospitalier Universitaire de Kigali)",
+    "address": "KN 4 Ave, Kigali",
+    "contact": "+250 788 111 222"
+  },
+  {
+    "name": "Rwanda Military Hospital",
+    "address": "Kanombe, Kigali",
+    "contact": "+250 788 333 444"
+  },
+  {
+    "name": "Muhima Hospital",
+    "address": "KN 1 Rd, Kigali",
+    "contact": "+250 788 555 666"
+  }
+] 
