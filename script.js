@@ -4,11 +4,14 @@ let hospitals = [];
 let bloodRequests = [];
 let pendingHospitals = [];
 
+
 function showPage(pageId) {
     document.querySelectorAll('.page').forEach(p => p.classList.add('hidden'));
     const target = document.getElementById(pageId);
     if (target) target.classList.remove('hidden');
 }
+
+
 
 function adminLogin(event) {
     event.preventDefault();
@@ -23,6 +26,7 @@ function adminLogin(event) {
         alert('Invalid admin credentials');
     }
 }
+
 
 function hospitalLogin(event) {
     event.preventDefault();
@@ -47,6 +51,8 @@ function hospitalLogin(event) {
     .catch(() => alert('Login error. Check connection.'));
 }
 
+
+
 function donorRegister(event) {
     event.preventDefault();
     const form = event.target;
@@ -60,6 +66,7 @@ function donorRegister(event) {
     };
 
     fetch('http://localhost/savelife/donor_register.php', {
+
         method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
         body: new URLSearchParams(data)
@@ -78,20 +85,35 @@ function donorRegister(event) {
     .catch(() => alert('Connection error.'));
 }
 
+
 function hospitalRegister(event) {
     event.preventDefault();
     const form = event.target;
+    
     const fileInput = document.getElementById('rbc-file');
-
+    
+    console.log('Form submission started');
+    console.log('File input:', fileInput);
+    
     if (!fileInput) {
         alert('Error: RBC certificate file input element not found in the form.');
         return;
     }
+    
+    console.log('Files selected:', fileInput.files);
+    
     if (!fileInput.files.length) {
         alert('Please upload RBC certificate');
         return;
     }
+
     const file = fileInput.files[0];
+    console.log('Selected file:', {
+        name: file.name,
+        size: file.size,
+        type: file.type
+    });
+
     const allowedTypes = ['application/pdf', 'image/jpeg', 'image/jpg', 'image/png'];
     const fileName = file.name.toLowerCase();
     const isValidFile = allowedTypes.includes(file.type) || 
@@ -99,53 +121,75 @@ function hospitalRegister(event) {
                        fileName.endsWith('.jpg') || 
                        fileName.endsWith('.jpeg') || 
                        fileName.endsWith('.png');
+    
     if (!isValidFile) {
         alert('Please upload only PDF, JPG, or PNG files');
         return;
     }
+
     if (file.size > 5 * 1024 * 1024) {
         alert('File size must be less than 5MB');
         return;
     }
+
+
     const nameInput = form.querySelector('input[placeholder*="hospital name"]') || form.querySelector('input[type="text"]');
     const emailInput = form.querySelector('input[type="email"]');
     const passwordInput = form.querySelector('input[type="password"]');
     const locationInput = form.querySelector('textarea');
+    
     if (!nameInput || !emailInput || !passwordInput || !locationInput) {
         alert('Error: Some form fields are missing. Please refresh the page and try again.');
         return;
     }
+
     if (!nameInput.value.trim() || !emailInput.value.trim() || !passwordInput.value.trim() || !locationInput.value.trim()) {
         alert('Please fill in all required fields');
         return;
     }
+    
     const formData = new FormData();
     formData.append('name', nameInput.value.trim());
     formData.append('email', emailInput.value.trim());
     formData.append('password', passwordInput.value.trim());
     formData.append('location', locationInput.value.trim());
     formData.append('certificate', file);
+
+    console.log('FormData prepared:', {
+        name: nameInput.value.trim(),
+        email: emailInput.value.trim(),
+        location: locationInput.value.trim(),
+        file: file.name
+    });
+
     const submitButton = form.querySelector('button[type="submit"]');
     if (submitButton) {
         const originalText = submitButton.textContent;
         submitButton.textContent = 'Uploading...';
         submitButton.disabled = true;
+
         fetch('http://localhost/savelife/hospital_register.php', {
             method: 'POST',
             body: formData
         })
         .then(response => {
+            console.log('Response status:', response.status);
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
             return response.text();
         })
         .then(result => {
+            console.log('Server response:', result);
+            
+
             submitButton.textContent = originalText;
             submitButton.disabled = false;
+            
             if (result.trim() === 'success') {
                 alert('Hospital registration submitted for review.');
                 form.reset();
+
                 const uploadArea = document.querySelector('.upload-area');
                 if (uploadArea) {
                     uploadArea.innerHTML = `
@@ -162,14 +206,20 @@ function hospitalRegister(event) {
             }
         })
         .catch(error => {
+            console.error('Fetch error:', error);
+            
+
             submitButton.textContent = originalText;
             submitButton.disabled = false;
+            
             alert('Connection error: ' + error.message);
         });
     } else {
         alert('Error: Submit button not found');
     }
 }
+
+
 
 function createBloodRequest(event) {
     event.preventDefault();
@@ -181,6 +231,7 @@ function createBloodRequest(event) {
         quantity: form.querySelector('input[type="number"]').value,
         notes: form.querySelector('textarea').value
     };
+
     fetch('http://localhost/savelife/create_request.php', {
         method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
@@ -200,90 +251,200 @@ function createBloodRequest(event) {
     .catch(() => alert('Failed to send request.'));
 }
 
-function renderHospitalsWeWorkWith() {
-    const container = document.getElementById('kigali-hospitals-list');
-    if (!container) return;
-    if (!hospitals || hospitals.length === 0) {
-        container.innerHTML = '<p style="text-align:center;color:#888;">No partner hospitals available.</p>';
-        return;
-    }
-    container.innerHTML = hospitals.map(h => `
-        <div class="hospital-item">
-            <strong>${h.name}</strong>
-            <span><b>Location:</b> ${h.location}</span>
-            <span><b>Email:</b> ${h.email}</span>
-        </div>
-    `).join('');
-}
-
-// Call this after hospitals are loaded
 function loadDashboardData() {
-    fetch('http://localhost/savelife/get_dashboard_data.php') // Back to real API
+    fetch('http://localhost/savelife/get_dashboard_data.php')
     .then(res => res.json())
     .then(data => {
         donors = data.donors;
         hospitals = data.hospitals;
         pendingHospitals = data.pendingHospitals;
         bloodRequests = data.bloodRequests;
-        renderHospitalsWeWorkWith();
-        if (currentUser && currentUser.type === 'hospital') updateHospitalDashboard();
-        else if (currentUser && currentUser.type === 'admin') updateAdminDashboard();
+
+        if (currentUser.type === 'hospital') updateHospitalDashboard();
+        else if (currentUser.type === 'admin') updateAdminDashboard();
     });
 }
 
-function updateAdminDashboard() {
-    const stats = document.querySelectorAll('#admin-dashboard .stat-card .number');
-    stats[0].textContent = hospitals.length;
-    stats[1].textContent = pendingHospitals.length;
-    stats[2].textContent = donors.length;
-    stats[3].textContent = bloodRequests.length;
-    const section = document.querySelector('#admin-dashboard .donors-section');
-    const noData = section.querySelector('.no-donors');
-    if (pendingHospitals.length === 0) {
-        noData.innerHTML = `<span style="font-size: 60px;">📋</span><p>No pending hospital registrations</p>`;
-    } else {
-        const list = document.createElement('div');
-        list.className = 'hospitals-list';
-        list.innerHTML = pendingHospitals.map(h => `
-            <div class="hospital-card" style="background: white; padding: 20px; border-radius: 10px; margin-bottom: 15px;">
-                <h3>${h.name}</h3>
-                <p><strong>Email:</strong> ${h.email}</p>
-                <p><strong>Location:</strong> ${h.location}</p>
-                <p><strong>Certificate:</strong> ${h.certificate}</p>
-                <div style="margin-top: 15px;">
-                    <button class="btn btn-primary" onclick="approveHospital('${h.id}')">Approve</button>
-                    <button class="btn btn-outline" onclick="rejectHospital('${h.id}')" style="margin-left: 10px;">Reject</button>
-                </div>
-            </div>
-        `).join('');
-        noData.replaceWith(list);
-    }
+let dashboardData = null;
+
+// Update the loadDashboardData function
+function loadDashboardData() {
+    fetch('http://localhost/savelife/get_dashboard_data.php')
+    .then(res => res.json())
+    .then(data => {
+        donors = data.donors;
+        hospitals = data.hospitals;
+        pendingHospitals = data.pendingHospitals;
+        bloodRequests = data.bloodRequests;
+        dashboardData = data; // Store the data globally
+
+        if (currentUser && currentUser.type === 'hospital') updateHospitalDashboard();
+        else if (currentUser && currentUser.type === 'admin') updateAdminDashboard();
+    })
+    .catch(error => {
+        console.error('Error loading dashboard data:', error);
+    });
 }
 
-function updateHospitalDashboard() {
-    const myRequests = bloodRequests.filter(req => req.hospitalEmail === currentUser.email);
-    const stats = document.querySelectorAll('#hospital-dashboard .stat-card .number');
-    stats[0].textContent = myRequests.length;
-    stats[1].textContent = myRequests.filter(r => r.status === 'pending').length;
-    stats[2].textContent = donors.length;
-    stats[3].textContent = myRequests.filter(r => r.status === 'completed').length;
-    const section = document.querySelector('#hospital-dashboard .donors-section');
-    const noData = section.querySelector('.no-donors');
-    if (donors.length === 0) {
-        noData.innerHTML = `<span style="font-size: 60px;">👥</span><p>No donors available</p>`;
+// Update the updateAdminDashboard function
+function updateAdminDashboard() {
+    const stats = document.querySelectorAll('#admin-dashboard .stat-card .number');
+    if (stats.length >= 4) {
+        stats[0].textContent = hospitals.length;
+        stats[1].textContent = pendingHospitals.length;
+        stats[2].textContent = donors.length;
+        stats[3].textContent = bloodRequests.length;
+    }
+
+    // Initialize with pending hospitals view
+    viewAdminSection('pending');
+}
+
+// New function to handle section viewing in admin dashboard
+function viewAdminSection(type) {
+    if (!dashboardData) return;
+    
+    const section = document.querySelector('#admin-dashboard .donors-section');
+    const titleElement = section.querySelector('h2');
+    
+    let html = '';
+    let title = '';
+    
+    switch(type) {
+        case 'donors':
+            title = 'All Donors';
+            if (dashboardData.donors.length === 0) {
+                html = `
+                    <div class="no-donors">
+                        <span style="font-size: 60px;">👥</span>
+                        <p>No donors registered</p>
+                    </div>
+                `;
+            } else {
+                html = `
+                    <div class="donors-list">
+                        ${dashboardData.donors.map(d => `
+                            <div class="donor-card" style="background: white; padding: 20px; border-radius: 10px; margin-bottom: 15px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+                                <h3 style="color: #e74c3c; margin-bottom: 10px;">${d.name}</h3>
+                                <p style="margin: 4px 0; color: #555;"><strong>Blood Type:</strong> ${d.bloodType}</p>
+                                <p style="margin: 4px 0; color: #555;"><strong>Phone:</strong> ${d.phone}</p>
+                                <p style="margin: 4px 0; color: #555;"><strong>Location:</strong> ${d.location}</p>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+            }
+            break;
+            
+        case 'hospitals':
+            title = 'All Approved Hospitals';
+            if (dashboardData.hospitals.length === 0) {
+                html = `
+                    <div class="no-donors">
+                        <span style="font-size: 60px;">🏥</span>
+                        <p>No hospitals approved</p>
+                    </div>
+                `;
+            } else {
+                html = `
+                    <div class="hospitals-list">
+                        ${dashboardData.hospitals.map(h => `
+                            <div class="hospital-card" style="background: white; padding: 20px; border-radius: 10px; margin-bottom: 15px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+                                <h3 style="color: #e74c3c; margin-bottom: 10px;">${h.name}</h3>
+                                <p style="margin: 4px 0; color: #555;"><strong>Email:</strong> ${h.email}</p>
+                                <p style="margin: 4px 0; color: #555;"><strong>Location:</strong> ${h.location}</p>
+                                <p style="margin: 4px 0; color: #555;"><strong>Status:</strong> <span style="color: #27ae60;">Approved</span></p>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+            }
+            break;
+            
+        case 'pending':
+            title = 'Pending Hospital Registrations';
+            if (dashboardData.pendingHospitals.length === 0) {
+                html = `
+                    <div class="no-donors">
+                        <span style="font-size: 60px;">📋</span>
+                        <p>No pending hospital registrations</p>
+                    </div>
+                `;
+            } else {
+                html = `
+                    <div class="hospitals-list">
+                        ${dashboardData.pendingHospitals.map(h => {
+                            const certUrl = `http://localhost/savelife/uploads/certificates/${h.certificate}`;
+                            return `
+                                <div class="hospital-card" style="background: white; padding: 20px; border-radius: 10px; margin-bottom: 15px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+                                    <h3 style="color: #e74c3c; margin-bottom: 10px;">${h.name}</h3>
+                                    <p style="margin: 4px 0; color: #555;"><strong>Email:</strong> ${h.email}</p>
+                                    <p style="margin: 4px 0; color: #555;"><strong>Location:</strong> ${h.location}</p>
+                                    <p style="margin: 4px 0; color: #555;"><strong>Certificate:</strong> <a href="${certUrl}" target="_blank" style="color: #3498db; text-decoration: underline;">View Certificate</a></p>
+                                    <div style="margin-top: 15px;">
+                                        <button class="btn btn-primary" onclick="approveHospital('${h.id}')" style="margin-right: 10px;">Approve</button>
+                                        <button class="btn btn-outline" onclick="rejectHospital('${h.id}')">Reject</button>
+                                    </div>
+                                </div>
+                            `;
+                        }).join('')}
+                    </div>
+                `;
+            }
+            break;
+            
+        case 'requests':
+            title = 'All Blood Requests';
+            if (dashboardData.bloodRequests.length === 0) {
+                html = `
+                    <div class="no-donors">
+                        <span style="font-size: 60px;">📊</span>
+                        <p>No blood requests found</p>
+                    </div>
+                `;
+            } else {
+                html = `
+                    <div class="requests-list">
+                        ${dashboardData.bloodRequests.map(r => `
+                            <div class="request-card" style="background: white; padding: 20px; border-radius: 10px; margin-bottom: 15px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+                                <h3 style="color: #e74c3c; margin-bottom: 10px;">Blood Request</h3>
+                                <p style="margin: 4px 0; color: #555;"><strong>Hospital:</strong> ${r.hospitalEmail}</p>
+                                <p style="margin: 4px 0; color: #555;"><strong>Blood Type:</strong> ${r.bloodType}</p>
+                                <p style="margin: 4px 0; color: #555;"><strong>Quantity:</strong> ${r.quantity} units</p>
+                                <p style="margin: 4px 0; color: #555;"><strong>Urgency:</strong> <span style="color: ${r.urgency === 'Critical' ? '#e74c3c' : r.urgency === 'High' ? '#f39c12' : '#27ae60'};">${r.urgency}</span></p>
+                                <p style="margin: 4px 0; color: #555;"><strong>Status:</strong> ${r.status}</p>
+                                ${r.notes ? `<p style="margin: 4px 0; color: #555;"><strong>Notes:</strong> ${r.notes}</p>` : ''}
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+            }
+            break;
+            
+        default:
+            title = 'Dashboard Overview';
+            html = `
+                <div class="no-donors">
+                    <span style="font-size: 60px;">📊</span>
+                    <p>Click on a stat card above to view detailed information</p>
+                </div>
+            `;
+    }
+    
+    // Update the title
+    if (titleElement) {
+        titleElement.textContent = title;
+    }
+    
+    // Update the content
+    const existingContent = section.querySelector('.no-donors, .donors-list, .hospitals-list, .requests-list');
+    if (existingContent) {
+        existingContent.outerHTML = html;
     } else {
-        const list = document.createElement('div');
-        list.className = 'donors-list';
-        list.innerHTML = donors.map(d => `
-            <div class="donor-card" style="background: white; padding: 20px; border-radius: 10px; margin-bottom: 15px;">
-                <h3>${d.name}</h3>
-                <p><strong>Blood Type:</strong> ${d.bloodType}</p>
-                <p><strong>Phone:</strong> ${d.phone}</p>
-                <p><strong>Location:</strong> ${d.location}</p>
-                <button class="btn btn-primary" onclick="contactDonor('${d.phone}')">Contact</button>
-            </div>
-        `).join('');
-        noData.replaceWith(list);
+        // If no existing content found, append to section
+        const contentDiv = document.createElement('div');
+        contentDiv.innerHTML = html;
+        section.appendChild(contentDiv.firstElementChild);
     }
 }
 
@@ -296,16 +457,22 @@ function approveHospital(id) {
     .then(res => res.text())
     .then(result => {
         if (result === 'success') {
-            alert('Hospital approved');
-            loadDashboardData();
+            alert('Hospital approved successfully!');
+            loadDashboardData(); // Reload data
+            setTimeout(() => viewAdminSection('pending'), 100); // Refresh the pending view
         } else {
-            alert('Approval failed');
+            alert('Approval failed: ' + result);
         }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Network error occurred');
     });
 }
 
 function rejectHospital(id) {
-    if (!confirm('Are you sure?')) return; 
+    if (!confirm('Are you sure you want to reject this hospital registration?')) return;
+    
     fetch('http://localhost/savelife/reject_hospital.php', {
         method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
@@ -314,13 +481,19 @@ function rejectHospital(id) {
     .then(res => res.text())
     .then(result => {
         if (result === 'success') {
-            alert('Hospital rejected');
-            loadDashboardData();
+            alert('Hospital registration rejected');
+            loadDashboardData(); // Reload data
+            setTimeout(() => viewAdminSection('pending'), 100); // Refresh the pending view
         } else {
-            alert('Rejection failed');
+            alert('Rejection failed: ' + result);
         }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Network error occurred');
     });
 }
+
 
 function contactDonor(phone) {
     alert('Contact donor at: ' + phone);
@@ -350,6 +523,7 @@ function submitHelpRequest(event) {
 document.addEventListener('DOMContentLoaded', () => {
     const fileInput = document.getElementById('rbc-file');
     const uploadArea = document.querySelector('.upload-area');
+
     if (fileInput && uploadArea) {
         fileInput.addEventListener('change', function (e) {
             const file = e.target.files[0];
@@ -358,6 +532,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
+
     window.addEventListener('click', e => {
         if (e.target === document.getElementById('blood-request-modal')) {
             closeModal();

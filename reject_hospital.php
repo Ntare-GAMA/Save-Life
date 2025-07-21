@@ -1,18 +1,24 @@
 <?php
 $conn = new mysqli("localhost", "root", "", "savelife");
-
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-$id = $_POST['id'];
+$id = $_POST['id'] ?? '';
+if (!is_numeric($id)) {
+    echo "Invalid ID";
+    exit;
+}
 
-$sql = "DELETE FROM hospitals WHERE id=$id";
+$stmt = $conn->prepare("DELETE FROM hospitals WHERE id = ?");
+$stmt->bind_param("i", $id);
 
-if ($conn->query($sql) === TRUE) {
+if ($stmt->execute()) {
     echo "success";
 } else {
-    echo "Error: " . $conn->error;
+    echo "Error: " . $stmt->error;
 }
+
+$stmt->close();
 $conn->close();
 ?>
