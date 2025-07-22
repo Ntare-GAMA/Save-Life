@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Mission - Save Life</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .mission-card {
+            background: linear-gradient(135deg, #f5f7fa 0%, #e3e9f0 100%);
+            border-radius: 18px;
+            box-shadow: 0 8px 32px rgba(52, 152, 219, 0.10);
+            padding: 48px 32px;
+            max-width: 700px;
+            margin: 60px auto 40px auto;
+            text-align: left;
+        }
+        .mission-card h2 {
+            color: #e74c3c;
+            font-size: 2.3rem;
+            margin-bottom: 18px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .mission-card p {
+            color: #333;
+            font-size: 1.18rem;
+            line-height: 1.8;
+        }
+        .mission-card ul {
+            margin-left: 28px;
+            margin-bottom: 18px;
+            color: #3498db;
+            font-size: 1.13rem;
+        }
+        .mission-card li {
+            margin-bottom: 10px;
+            color: #444;
+        }
+        @media (max-width: 600px) {
+            .mission-card { padding: 24px 8px; }
+            .mission-card h2 { font-size: 1.3rem; }
+            .mission-card p, .mission-card ul { font-size: 1rem; }
+        }
+        body.dark-mode .mission-card {
+            background: linear-gradient(135deg, #232526 0%, #414345 100%);
+            color: #f5f7fa;
+            box-shadow: 0 8px 32px rgba(52, 152, 219, 0.18);
+        }
+        body.dark-mode .mission-card h2 {
+            color: #ff7675;
+        }
+        body.dark-mode .mission-card p {
+            color: #f5f7fa;
+        }
+        body.dark-mode .mission-card ul {
+            color: #74b9ff;
+        }
+        body.dark-mode .mission-card li {
+            color: #f5f7fa;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="logo">
+            <span>❤️</span>
+            <span>Save Life</span>
+        </div>
+        <a href="Index.html" class="btn btn-outline" style="margin-left:auto;">Home</a>
+    </div>
+    <div class="container">
+        <div class="mission-card">
+            <h2><span>🎯</span> Our Mission</h2>
+            <p>
+                Our mission is to ensure that no life is lost due to delays in accessing blood.<br>
+                We aim to create a smart, inclusive blood donation network that:
+            </p>
+            <ul>
+                <li>Empowers citizens to donate through simple, everyday tools</li>
+                <li>Supports hospitals with real-time access to nearby donors</li>
+                <li>Improves Rwanda’s blood supply chain with data-driven systems</li>
+                <li>Promotes regular donation by removing information and location barriers</li>
+            </ul>
+            <p>
+                Together, we’re building a future where every willing donor can respond when it matters most.
+            </p>
+        </div>
+    </div>
+    <div class="footer">
+        © 2025 Save Life. Connecting donors with hospitals to save lives.
+    </div>
+    <script src="script.js"></script>
+</body>
+</html> 
