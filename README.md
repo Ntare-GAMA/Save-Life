@@ -29,16 +29,15 @@ Save Life aims to make the process of connecting blood donors with hospitals fas
 
 ### **Frontend**
 
-* **Next.js**
-* **React**
-* **TypeScript**
-* **Tailwind CSS**
-* **PNPM**
+* **HTML5**
+* **CSS3**
+* **JAVASCRIPT**
+
 
 ### **Backend**
 
-* **Node.js**
-* **Express.js** (planned)
+* **PHP**
+* **SQL** 
 * **MySQL** (Relational Database)
 
 ### **Design**
