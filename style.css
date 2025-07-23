@@ -1,19 +1,126 @@
+:root {
+    --color-bg-beige: #F8F5F2;
+    --color-clay-orange: #E86A34;
+    --color-dark-serif: #2D2320;
+    --color-black-stroke: #181818;
+    --color-accent-light: #F3E9E2;
+    --color-accent-lighter: #FCFAF8;
+}
+
 * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
+        /* Use Reckless Neue for all text, with serif fallbacks */
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            font-family: 'Reckless Neue', Georgia, 'Times New Roman', Times, serif;
+            background: var(--color-bg-beige);
+            color: var(--color-dark-serif);
             min-height: 100vh;
+            line-height: 1.6;
+            font-size: 1.08rem;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
+        body.dark-mode {
+            --color-bg-beige: #191513;
+            --color-clay-orange: #FF8C42;
+            --color-dark-serif: #F8F5F2;
+            --color-black-stroke: #F8F5F2;
+            --color-accent-light: #23201D;
+            --color-accent-lighter: #23201D;
+            background: var(--color-bg-beige);
+            color: var(--color-dark-serif);
+        }
+
+        body.dark-mode .header,
+        body.dark-mode .container,
+        body.dark-mode .main-content,
+        body.dark-mode .dashboard,
+        body.dark-mode .stat-card,
+        body.dark-mode .registration-card,
+        body.dark-mode .how-it-works,
+        body.dark-mode .modal-content,
+        body.dark-mode .donors-section,
+        body.dark-mode .detail-card {
+            background: var(--color-accent-lighter) !important;
+        }
+
+        body.dark-mode h1,
+        body.dark-mode h2,
+        body.dark-mode h3,
+        body.dark-mode h4,
+        body.dark-mode h5,
+        body.dark-mode h6 {
+            color: var(--color-dark-serif);
+        }
+
+        body.dark-mode .btn-primary,
+        body.dark-mode .btn-secondary,
+        body.dark-mode .btn-outline,
+        body.dark-mode .stat-card.red .icon,
+        body.dark-mode .registration-card .icon,
+        body.dark-mode .step-number,
+        body.dark-mode .help-icon {
+            background: var(--color-clay-orange) !important;
+            color: #191513 !important;
+            border: none;
+        }
+
+        body.dark-mode .btn-outline {
+            border: 2px solid var(--color-clay-orange) !important;
+            color: var(--color-clay-orange) !important;
+            background: transparent !important;
+        }
+
+        body.dark-mode .btn-outline:hover {
+            background: var(--color-clay-orange) !important;
+            color: #191513 !important;
+        }
+
+        body.dark-mode .form-title,
+        body.dark-mode .form-group label,
+        body.dark-mode .stat-card .number,
+        body.dark-mode .stat-card .label,
+        body.dark-mode .registration-card p,
+        body.dark-mode .step p,
+        body.dark-mode .detail-card p {
+            color: var(--color-dark-serif) !important;
+        }
+
+        body.dark-mode .modal {
+            background: rgba(0,0,0,0.7) !important;
+        }
+
+        body.dark-mode .close {
+            color: #F8F5F2 !important;
+        }
+
+        body.dark-mode .close:hover {
+            color: #FF8C42 !important;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Reckless Neue', Georgia, 'Times New Roman', Times, serif;
+            color: var(--color-dark-serif);
+            font-weight: 700;
+            letter-spacing: -0.01em;
+            margin-bottom: 0.5em;
+        }
+
+        hr, .stroke, .divider {
+            border-color: var(--color-black-stroke) !important;
+            border-width: 1.5px;
+            opacity: 0.12;
+        }
+
+        .btn-primary, .btn-secondary, .btn-outline, .stat-card.red .icon, .registration-card .icon, .step-number, .help-icon {
+            background: var(--color-clay-orange) !important;
+            color: #fff !important;
+            border: none;
         }
 
         .header {
