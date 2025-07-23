@@ -1,10 +1,10 @@
 <?php
 // This first line is very important. It tells the browser that this file will send back JSON data,
-// which is the language JavaScript understands best.
+
 header('Content-Type: application/json');
 
-// --- 1. DATABASE CONNECTION ---
-// Make sure these details match your database settings.
+//DATABASE CONNECTION
+
 $servername = "localhost";
 $username = "root";
 $password = "";
