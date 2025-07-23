@@ -498,7 +498,7 @@ function hospitalRegister(event) {
                 const uploadArea = document.querySelector('.upload-area');
                 if (uploadArea) {
                     uploadArea.innerHTML = `
-                        <p>📄 Click to upload RBC certificate</p>
+                        <p><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M8 2v4M16 2v4M4 10h16"/></svg> Click to upload RBC certificate</p>
                         <small>(PDF, JPG, or PNG files)</small>
                     `;
                 }
@@ -962,9 +962,9 @@ document.addEventListener('DOMContentLoaded', () => {
         fileInput.addEventListener('change', function (e) {
             const file = e.target.files[0];
             if (file) {
-                uploadArea.innerHTML = `<p>✅ ${file.name}</p><small>File selected successfully</small>`;
+                uploadArea.innerHTML = `<p><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> ${file.name}</p><small>File selected successfully</small>`;
             } else {
-                uploadArea.innerHTML = `<p>📄 Click to upload RBC certificate</p><small>(PDF, JPG, or PNG files)</small>`;
+                uploadArea.innerHTML = `<p><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M8 2v4M16 2v4M4 10h16"/></svg> Click to upload RBC certificate</p><small>(PDF, JPG, or PNG files)</small>`;
             }
         });
     }
@@ -1000,6 +1000,54 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
     
+    // Dark mode toggle logic
+    const themeToggleBtn = document.getElementById('theme-toggle');
+    const themeToggleIcon = document.getElementById('theme-toggle-icon');
+    const moonIcon = document.getElementById('moon-icon');
+    const sunIcon = document.getElementById('sun-icon');
+    const body = document.body;
+
+    function setTheme(isDark) {
+        if (isDark) {
+            body.classList.add('dark-mode');
+            if (moonIcon) moonIcon.style.display = 'none';
+            if (sunIcon) sunIcon.style.display = '';
+        } else {
+            body.classList.remove('dark-mode');
+            if (moonIcon) moonIcon.style.display = '';
+            if (sunIcon) sunIcon.style.display = 'none';
+        }
+    }
+
+    // Load theme from localStorage
+    const savedTheme = localStorage.getItem('theme');
+    setTheme(savedTheme === 'dark');
+
+    if (themeToggleBtn) {
+        themeToggleBtn.addEventListener('click', () => {
+            const isDark = !body.classList.contains('dark-mode');
+            setTheme(isDark);
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+        });
+    }
+
+    // Info dropdown logic
+    const infoDropdownBtn = document.getElementById('info-dropdown-btn');
+    const infoDropdownContent = document.getElementById('info-dropdown-content');
+    if (infoDropdownBtn && infoDropdownContent) {
+        infoDropdownBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const isOpen = infoDropdownContent.style.display === 'block';
+            infoDropdownContent.style.display = isOpen ? 'none' : 'block';
+        });
+        // Close dropdown when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!infoDropdownContent.contains(e.target) && e.target !== infoDropdownBtn) {
+                infoDropdownContent.style.display = 'none';
+            }
+        });
+    }
+
     console.log('Initialization complete');
     
     // Initialize the blood donation graph animation

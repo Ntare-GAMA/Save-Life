@@ -102,7 +102,9 @@
 
             <div class="main-content">
                 <div class="registration-card">
-                    <div class="icon">🏥</div>
+                    <div class="icon">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M16 3v4M8 3v4M3 11h18"/></svg>
+                    </div>
                     <h3>For Hospitals</h3>
                     <p>Streamline your blood supply chain. Access a network of willing donors and manage requests efficiently.</p>
                     <ul>
@@ -114,7 +116,9 @@
                 </div>
 
                 <div class="registration-card">
-                    <div class="icon">👤</div>
+                    <div class="icon">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="7" r="4"/><path d="M5.5 21a7.5 7.5 0 0 1 13 0"/></svg>
+                    </div>
                     <h3>For Donors</h3>
                     <p>Become a hero in your community. Your single donation can save multiple lives. Get notified when you're needed.</p>
                     <ul>
@@ -130,17 +134,23 @@
                 <h2>Simple Steps to Save a Life</h2>
                 <div class="steps">
                     <div class="step">
-                        <div class="step-icon">📝</div>
+                        <div class="step-icon">
+                            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+                        </div>
                         <h3>Register in Minutes</h3>
                         <p>Create your secure profile as a donor or hospital. It's fast, easy, and the first step to making a difference.</p>
                     </div>
                     <div class="step">
-                        <div class="step-icon">🔔</div>
+                        <div class="step-icon">
+                            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+                        </div>
                         <h3>Get Real-Time Alerts</h3>
                         <p>Hospitals post urgent needs, and our system instantly notifies matching donors in the area.</p>
                     </div>
                     <div class="step">
-                        <div class="step-icon">🤝</div>
+                        <div class="step-icon">
+                            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20v-2a4 4 0 0 1 4-4h8a4 4 0 0 1 4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                        </div>
                         <h3>Connect & Donate</h3>
                         <p>Donors respond to alerts, connect directly with the hospital, and facilitate a life-saving donation.</p>
                     </div>
@@ -179,10 +189,7 @@
                     <form action="#" method="post">
                         <input type="email" name="email" class="text-input contact-input" placeholder="Your email address...">
                         <textarea rows="4" name="message" class="text-input contact-input" placeholder="Your message..."></textarea>
-                        <button type="submit" class="btn btn-primary">
-                            <i class="fas fa-paper-plane"></i>
-                            Send
-                        </button>
+                        <button type="submit" class="btn-footer">Send</button>
                     </form>
                 </div>
             </div>
@@ -412,22 +419,30 @@
     <div class="container">
         <div class="dashboard">
             <div class="stat-card red" onclick="viewHospitalSection('requests')" style="cursor: pointer;">
-                <div class="icon">🩸</div>
+                <div class="icon">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C12 2 7 8.5 7 13a5 5 0 0 0 10 0c0-4.5-5-11-5-11z"/></svg>
+                </div>
                 <div class="number">0</div>
                 <div class="label">Total Requests</div>
             </div>
             <div class="stat-card orange" onclick="viewHospitalSection('pending')" style="cursor: pointer;">
-                <div class="icon">⚠️</div>
+                <div class="icon">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4M12 17h.01"/><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/></svg>
+                </div>
                 <div class="number">0</div>
                 <div class="label">Pending Requests</div>
             </div>
             <div class="stat-card blue" onclick="viewHospitalSection('donors')" style="cursor: pointer;">
-                <div class="icon">👥</div>
+                <div class="icon">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="7" r="4"/><path d="M5.5 21a7.5 7.5 0 0 1 13 0"/></svg>
+                </div>
                 <div class="number">0</div>
                 <div class="label">Available Donors</div>
             </div>
             <div class="stat-card green" onclick="viewHospitalSection('completed')" style="cursor: pointer;">
-                <div class="icon">✅</div>
+                <div class="icon">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                </div>
                 <div class="number">0</div>
                 <div class="label">Successful Matches</div>
             </div>
