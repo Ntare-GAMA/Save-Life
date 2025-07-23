@@ -1,31 +1,17 @@
 <?php
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $phone = $_POST['phoneNumber'] ?? '';
-    $idType = $_POST['idType'] ?? '';
-    $idNumber = $_POST['idNumber'] ?? '';
 
-    if ($phone && $idType && $idNumber) {
-        // Simulate registration and response
-        echo json_encode([
-            "status" => "success",
-            "message" => "User registered successfully.",
-            "data" => [
-                "phone" => $phone,
-                "idType" => $idType,
-                "idNumber" => $idNumber
-            ]
-        ]);
-    } else {
-        echo json_encode([
-            "status" => "error",
-            "message" => "Missing parameters."
-        ]);
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    print_r($_POST); // í±ˆ This will help you debug
+
+    $phoneNumber = $_POST['phoneNumber'] ?? null;
+    $idType = $_POST['idType'] ?? null;
+    $idNumber = $_POST['idNumber'] ?? null;
+
+    if (!$phoneNumber || !$idType || !$idNumber) {
+        echo json_encode(["status" => "error", "message" => "Missing parameters."]);
+        exit;
     }
-} else {
-    echo json_encode([
-        "status" => "error",
-        "message" => "Invalid request method."
-    ]);
+
+    // Continue with registration logic...
 }
 ?>
-
