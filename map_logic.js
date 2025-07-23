@@ -24,9 +24,9 @@ document.addEventListener('DOMContentLoaded', function () {
     };
     
     function fetchAndDisplayDonors(bloodType) {
-      
+        // --- THIS IS THE FIX ---
         // This line ensures special characters like '+' are converted to a safe
-        
+        // format (e.g., %2B) before being put in the URL.
         const encodedBloodType = encodeURIComponent(bloodType);
         
         // We use the new, safe variable to build the URL.

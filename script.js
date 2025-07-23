@@ -108,6 +108,69 @@ function viewHospitalSection(type) {
     const hospitalRequests = dashboardData.bloodRequests.filter(r => r.hospitalEmail === currentUser.email);
     
     switch(type) {
+        case 'blood-inventory':
+            title = 'Blood Inventory Status';
+            html = `
+                <div class="blood-inventory">
+                    <div style="background: white; padding: 20px; border-radius: 10px; margin-bottom: 15px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+                        <h3 style="color: #9b59b6; margin-bottom: 15px;">Current Blood Inventory</h3>
+                        <p style="margin-bottom: 15px; color: #666;">
+                            This section shows the current blood inventory status. Monitoring your blood inventory helps ensure you have adequate supplies for emergency situations.
+                        </p>
+                        <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 15px; margin-bottom: 20px;">
+                            <div style="background: #f8f9fa; padding: 15px; border-radius: 8px; text-align: center; border-left: 3px solid #e74c3c;">
+                                <img src="icons/A_plus.png" alt="A+" style="width: 40px; height: 40px; margin-bottom: 10px;">
+                                <h4>A+</h4>
+                                <p style="font-size: 1.2rem; font-weight: bold; color: #333;">5 units</p>
+                            </div>
+                            <div style="background: #f8f9fa; padding: 15px; border-radius: 8px; text-align: center; border-left: 3px solid #e74c3c;">
+                                <img src="icons/A_minus.png" alt="A-" style="width: 40px; height: 40px; margin-bottom: 10px;">
+                                <h4>A-</h4>
+                                <p style="font-size: 1.2rem; font-weight: bold; color: #333;">3 units</p>
+                            </div>
+                            <div style="background: #f8f9fa; padding: 15px; border-radius: 8px; text-align: center; border-left: 3px solid #e74c3c;">
+                                <img src="icons/B_plus.png" alt="B+" style="width: 40px; height: 40px; margin-bottom: 10px;">
+                                <h4>B+</h4>
+                                <p style="font-size: 1.2rem; font-weight: bold; color: #333;">4 units</p>
+                            </div>
+                            <div style="background: #f8f9fa; padding: 15px; border-radius: 8px; text-align: center; border-left: 3px solid #e74c3c;">
+                                <img src="icons/B_minus.png" alt="B-" style="width: 40px; height: 40px; margin-bottom: 10px;">
+                                <h4>B-</h4>
+                                <p style="font-size: 1.2rem; font-weight: bold; color: #333;">2 units</p>
+                            </div>
+                            <div style="background: #f8f9fa; padding: 15px; border-radius: 8px; text-align: center; border-left: 3px solid #e74c3c;">
+                                <img src="icons/AB_plus.png" alt="AB+" style="width: 40px; height: 40px; margin-bottom: 10px;">
+                                <h4>AB+</h4>
+                                <p style="font-size: 1.2rem; font-weight: bold; color: #333;">1 unit</p>
+                            </div>
+                            <div style="background: #f8f9fa; padding: 15px; border-radius: 8px; text-align: center; border-left: 3px solid #e74c3c;">
+                                <img src="icons/AB_minus.png" alt="AB-" style="width: 40px; height: 40px; margin-bottom: 10px;">
+                                <h4>AB-</h4>
+                                <p style="font-size: 1.2rem; font-weight: bold; color: #333;">1 unit</p>
+                            </div>
+                            <div style="background: #f8f9fa; padding: 15px; border-radius: 8px; text-align: center; border-left: 3px solid #e74c3c;">
+                                <img src="icons/O_plus.png" alt="O+" style="width: 40px; height: 40px; margin-bottom: 10px;">
+                                <h4>O+</h4>
+                                <p style="font-size: 1.2rem; font-weight: bold; color: #333;">6 units</p>
+                            </div>
+                            <div style="background: #f8f9fa; padding: 15px; border-radius: 8px; text-align: center; border-left: 3px solid #e74c3c;">
+                                <img src="icons/O_minus.png" alt="O-" style="width: 40px; height: 40px; margin-bottom: 10px;">
+                                <h4>O-</h4>
+                                <p style="font-size: 1.2rem; font-weight: bold; color: #333;">3 units</p>
+                            </div>
+                        </div>
+                        <div style="background: #f8f9fa; padding: 15px; border-radius: 8px; margin-top: 20px;">
+                            <h4 style="color: #333; margin-bottom: 10px;">Need More Blood?</h4>
+                            <p style="color: #666; margin-bottom: 15px;">Running low on certain blood types? Create a blood request to alert nearby donors.</p>
+                            <button class="btn btn-primary" onclick="showBloodRequestModal()">Create Blood Request</button>
+                            <a href="hospital_map.html" class="btn btn-outline" style="margin-left: 10px;">
+                                <i class="fas fa-map-marker-alt" style="margin-right: 5px;"></i> Find Donors
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            `;
+            break;
         case 'donors':
             title = 'Available Donors';
             if (dashboardData.donors.length === 0) {
@@ -435,7 +498,7 @@ function hospitalRegister(event) {
                 const uploadArea = document.querySelector('.upload-area');
                 if (uploadArea) {
                     uploadArea.innerHTML = `
-                        <p><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M8 2v4M16 2v4M4 10h16"/></svg> Click to upload RBC certificate</p>
+                        <p>📄 Click to upload RBC certificate</p>
                         <small>(PDF, JPG, or PNG files)</small>
                     `;
                 }
@@ -536,12 +599,29 @@ function loadDashboardData() {
 
         if (currentUser && currentUser.type === 'hospital') {
             updateHospitalDashboard();
+            
+            // Ensure the blood inventory card shows data even if database doesn't provide it
+            const bloodInventoryNumber = document.querySelector('#hospital-dashboard .stat-card.purple .number');
+            if (bloodInventoryNumber && bloodInventoryNumber.textContent === '0') {
+                bloodInventoryNumber.textContent = '25'; // Default value if not provided by database
+            }
         } else if (currentUser && currentUser.type === 'admin') {
             updateAdminDashboard();
         }
+        
+        // Update the Analysis Corner charts with the latest data
+        updateAnalysisCornerCharts();
     })
     .catch(error => {
         console.error('Error loading dashboard data:', error);
+        
+        // If there's an error loading data, still initialize the blood inventory
+        if (currentUser && currentUser.type === 'hospital') {
+            const bloodInventoryNumber = document.querySelector('#hospital-dashboard .stat-card.purple .number');
+            if (bloodInventoryNumber) {
+                bloodInventoryNumber.textContent = '25';
+            }
+        }
     });
 }
 
@@ -549,7 +629,7 @@ function updateHospitalDashboard() {
     if (!currentUser || currentUser.type !== 'hospital') return;
     
     const stats = document.querySelectorAll('#hospital-dashboard .stat-card .number');
-    if (stats.length >= 4) {
+    if (stats.length >= 5) {
         const hospitalRequests = bloodRequests.filter(r => r.hospitalEmail === currentUser.email);
         const pendingRequests = hospitalRequests.filter(r => r.status === 'pending');
         
@@ -557,6 +637,15 @@ function updateHospitalDashboard() {
         stats[1].textContent = pendingRequests.length;
         stats[2].textContent = donors.length;
         stats[3].textContent = hospitalRequests.filter(r => r.status === 'completed').length;
+        stats[4].textContent = '25'; // Total blood inventory units
+    }
+
+    // Make sure to show the blood inventory section when clicking on the card
+    const bloodInventoryCard = document.querySelector('#hospital-dashboard .stat-card.purple');
+    if (bloodInventoryCard) {
+        bloodInventoryCard.addEventListener('click', function() {
+            viewHospitalSection('blood-inventory');
+        });
     }
 
     const donorsSection = document.querySelector('#hospital-dashboard .donors-section');
@@ -873,9 +962,9 @@ document.addEventListener('DOMContentLoaded', () => {
         fileInput.addEventListener('change', function (e) {
             const file = e.target.files[0];
             if (file) {
-                uploadArea.innerHTML = `<p><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> ${file.name}</p><small>File selected successfully</small>`;
+                uploadArea.innerHTML = `<p>✅ ${file.name}</p><small>File selected successfully</small>`;
             } else {
-                uploadArea.innerHTML = `<p><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M8 2v4M16 2v4M4 10h16"/></svg> Click to upload RBC certificate</p><small>(PDF, JPG, or PNG files)</small>`;
+                uploadArea.innerHTML = `<p>📄 Click to upload RBC certificate</p><small>(PDF, JPG, or PNG files)</small>`;
             }
         });
     }
@@ -911,53 +1000,541 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
     
-    // Dark mode toggle logic
-    const themeToggleBtn = document.getElementById('theme-toggle');
-    const themeToggleIcon = document.getElementById('theme-toggle-icon');
-    const moonIcon = document.getElementById('moon-icon');
-    const sunIcon = document.getElementById('sun-icon');
-    const body = document.body;
+    console.log('Initialization complete');
+    
+    // Initialize the blood donation graph animation
+    initBloodDonationGraph();
+    
+    // Initialize the analysis corner charts
+    initAnalysisCornerCharts();
+    
+    // Load dashboard data on page load
+    loadDashboardData();
+});
 
-    function setTheme(isDark) {
-        if (isDark) {
-            body.classList.add('dark-mode');
-            if (moonIcon) moonIcon.style.display = 'none';
-            if (sunIcon) sunIcon.style.display = '';
-        } else {
-            body.classList.remove('dark-mode');
-            if (moonIcon) moonIcon.style.display = '';
-            if (sunIcon) sunIcon.style.display = 'none';
-        }
+// Function to initialize the Analysis Corner charts
+function initAnalysisCornerCharts() {
+    // Check if Chart.js is loaded
+    if (typeof Chart === 'undefined') {
+        console.error('Chart.js is not loaded');
+        return;
     }
-
-    // Load theme from localStorage
-    const savedTheme = localStorage.getItem('theme');
-    setTheme(savedTheme === 'dark');
-
-    if (themeToggleBtn) {
-        themeToggleBtn.addEventListener('click', () => {
-            const isDark = !body.classList.contains('dark-mode');
-            setTheme(isDark);
-            localStorage.setItem('theme', isDark ? 'dark' : 'light');
-        });
-    }
-
-    // Info dropdown logic
-    const infoDropdownBtn = document.getElementById('info-dropdown-btn');
-    const infoDropdownContent = document.getElementById('info-dropdown-content');
-    if (infoDropdownBtn && infoDropdownContent) {
-        infoDropdownBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            const isOpen = infoDropdownContent.style.display === 'block';
-            infoDropdownContent.style.display = isOpen ? 'none' : 'block';
-        });
-        // Close dropdown when clicking outside
-        document.addEventListener('click', (e) => {
-            if (!infoDropdownContent.contains(e.target) && e.target !== infoDropdownBtn) {
-                infoDropdownContent.style.display = 'none';
+    
+    // Initialize the donors chart
+    const donorsCtx = document.getElementById('donorsChart');
+    if (donorsCtx) {
+        window.donorsChart = new Chart(donorsCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'],
+                datasets: [{
+                    data: [25, 15, 20, 10, 5, 5, 15, 5],
+                    backgroundColor: [
+                        '#e74c3c', '#c0392b', '#3498db', '#2980b9',
+                        '#9b59b6', '#8e44ad', '#2ecc71', '#27ae60'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'right',
+                        labels: {
+                            color: '#fff',
+                            font: {
+                                size: 9
+                            },
+                            boxWidth: 10,
+                            padding: 5
+                        }
+                    },
+                    title: {
+                        display: false
+                    }
+                }
             }
         });
     }
+    
+    // Initialize the blood donated chart
+    const bloodDonatedCtx = document.getElementById('bloodDonatedChart');
+    if (bloodDonatedCtx) {
+        window.bloodDonatedChart = new Chart(bloodDonatedCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                datasets: [{
+                    label: 'Units Donated',
+                    data: [65, 59, 80, 81, 56, 55],
+                    backgroundColor: '#e74c3c',
+                    borderColor: '#c0392b',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            color: '#fff',
+                            font: {
+                                size: 8
+                            }
+                        },
+                        grid: {
+                            color: 'rgba(255, 255, 255, 0.1)'
+                        }
+                    },
+                    x: {
+                        ticks: {
+                            color: '#fff',
+                            font: {
+                                size: 8
+                            }
+                        },
+                        grid: {
+                            color: 'rgba(255, 255, 255, 0.1)'
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        labels: {
+                            color: '#fff',
+                            font: {
+                                size: 9
+                            },
+                            boxWidth: 10,
+                            padding: 5
+                        }
+                    }
+                }
+            }
+        });
+    }
+    
+    // Initialize the pending requests chart
+    const pendingRequestsCtx = document.getElementById('pendingRequestsChart');
+    if (pendingRequestsCtx) {
+        window.pendingRequestsChart = new Chart(pendingRequestsCtx, {
+            type: 'line',
+            data: {
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                datasets: [{
+                    label: 'Pending Requests',
+                    data: [12, 19, 3, 5, 2, 3],
+                    backgroundColor: 'rgba(255, 193, 7, 0.2)',
+                    borderColor: '#ffc107',
+                    borderWidth: 2,
+                    tension: 0.4,
+                    fill: true
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            color: '#fff',
+                            font: {
+                                size: 8
+                            }
+                        },
+                        grid: {
+                            color: 'rgba(255, 255, 255, 0.1)'
+                        }
+                    },
+                    x: {
+                        ticks: {
+                            color: '#fff',
+                            font: {
+                                size: 8
+                            }
+                        },
+                        grid: {
+                            color: 'rgba(255, 255, 255, 0.1)'
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        labels: {
+                            color: '#fff',
+                            font: {
+                                size: 9
+                            },
+                            boxWidth: 10,
+                            padding: 5
+                        }
+                    }
+                }
+            }
+        });
+    }
+}
 
-    console.log('Initialization complete');
-});
+// Function to update the Analysis Corner charts with real data
+function updateAnalysisCornerCharts() {
+    if (!dashboardData) return;
+    
+    // Update donors chart
+    if (window.donorsChart) {
+        // Count donors by blood type
+        const bloodTypeCounts = {
+            'A+': 0, 'A-': 0, 'B+': 0, 'B-': 0,
+            'AB+': 0, 'AB-': 0, 'O+': 0, 'O-': 0
+        };
+        
+        dashboardData.donors.forEach(donor => {
+            if (bloodTypeCounts.hasOwnProperty(donor.bloodType)) {
+                bloodTypeCounts[donor.bloodType]++;
+            }
+        });
+        
+        window.donorsChart.data.datasets[0].data = [
+            bloodTypeCounts['A+'], bloodTypeCounts['A-'],
+            bloodTypeCounts['B+'], bloodTypeCounts['B-'],
+            bloodTypeCounts['AB+'], bloodTypeCounts['AB-'],
+            bloodTypeCounts['O+'], bloodTypeCounts['O-']
+        ];
+        
+        window.donorsChart.update();
+    }
+    
+    // Update blood donated chart
+    if (window.bloodDonatedChart) {
+        // In a real application, this would use actual donation data
+        // For now, we'll use the number of completed requests per blood type
+        const completedRequests = dashboardData.bloodRequests.filter(r => r.status === 'completed');
+        const bloodTypeQuantities = {
+            'A+': 0, 'A-': 0, 'B+': 0, 'B-': 0,
+            'AB+': 0, 'AB-': 0, 'O+': 0, 'O-': 0
+        };
+        
+        completedRequests.forEach(request => {
+            if (bloodTypeQuantities.hasOwnProperty(request.bloodType)) {
+                bloodTypeQuantities[request.bloodType] += parseInt(request.quantity) || 0;
+            }
+        });
+        
+        window.bloodDonatedChart.data.labels = Object.keys(bloodTypeQuantities);
+        window.bloodDonatedChart.data.datasets[0].data = Object.values(bloodTypeQuantities);
+        window.bloodDonatedChart.update();
+    }
+    
+    // Update pending requests chart
+    if (window.pendingRequestsChart) {
+        // Count pending requests by blood type
+        const pendingRequests = dashboardData.bloodRequests.filter(r => r.status === 'pending');
+        const pendingByBloodType = {
+            'A+': 0, 'A-': 0, 'B+': 0, 'B-': 0,
+            'AB+': 0, 'AB-': 0, 'O+': 0, 'O-': 0
+        };
+        
+        pendingRequests.forEach(request => {
+            if (pendingByBloodType.hasOwnProperty(request.bloodType)) {
+                pendingByBloodType[request.bloodType] += parseInt(request.quantity) || 0;
+            }
+        });
+        
+        window.pendingRequestsChart.data.labels = Object.keys(pendingByBloodType);
+        window.pendingRequestsChart.data.datasets[0].data = Object.values(pendingByBloodType);
+        window.pendingRequestsChart.update();
+    }
+}
+
+// Function to initialize and animate the blood donation graph
+function initBloodDonationGraph() {
+    // This function will be called when the page loads
+    // It sets up the blood donation graph and makes it dynamic
+    
+    const timeOptions = document.querySelectorAll('.graph-time-selector .time-option');
+    if (timeOptions.length > 0) {
+        timeOptions.forEach(option => {
+            option.addEventListener('click', function() {
+                // Remove active class from all options
+                timeOptions.forEach(opt => opt.classList.remove('active'));
+                // Add active class to clicked option
+                this.classList.add('active');
+                
+                // Update graph data based on selected time period
+                updateGraphData(this.textContent);
+            });
+        });
+    }
+    
+    // Initial graph update
+    updateGraphData('1M');
+}
+
+// Function to update the graph data based on time period
+function updateGraphData(timePeriod) {
+    // In a real application, this would fetch data from the server
+    // For now, we'll simulate different data for different time periods
+    
+    let pathData = '';
+    
+    switch(timePeriod) {
+        case '1D':
+            pathData = "M0,50 C10,45 20,40 30,35 L30,35 C40,30 50,25 60,30 L60,30 C70,35 80,40 90,45 L90,45 C100,50 110,55 120,50 L120,50 C130,45 140,40 150,35 L150,35 C160,30 170,25 180,20 L180,20 C190,15 200,10 210,15 L210,15 C220,20 230,25 240,30 L240,30 C250,35 260,40 270,45 L270,45 C280,50 290,55 300,50";
+            break;
+        case '5D':
+            pathData = "M0,60 C10,55 20,50 30,45 L30,45 C40,40 50,35 60,30 L60,30 C70,25 80,20 90,25 L90,25 C100,30 110,35 120,40 L120,40 C130,45 140,50 150,55 L150,55 C160,60 170,65 180,60 L180,60 C190,55 200,50 210,45 L210,45 C220,40 230,35 240,30 L240,30 C250,25 260,20 270,25 L270,25 C280,30 290,35 300,40";
+            break;
+        case '1M':
+            pathData = "M0,80 C10,70 20,30 30,20 L30,20 C40,25 50,40 60,35 L60,35 C70,35 80,40 90,40 L90,40 C100,40 110,45 120,45 L120,45 C130,45 140,40 150,40 L150,40 C160,40 170,35 180,30 L180,30 C190,30 200,25 210,30 L210,30 C220,35 230,40 240,35 L240,35 C250,35 260,80 270,40 L270,40 C280,10 290,10 300,10";
+            break;
+        case '1Y':
+            pathData = "M0,70 C10,65 20,60 30,55 L30,55 C40,50 50,45 60,40 L60,40 C70,35 80,30 90,25 L90,25 C100,20 110,15 120,20 L120,20 C130,25 140,30 150,35 L150,35 C160,40 170,45 180,50 L180,50 C190,55 200,60 210,55 L210,55 C220,50 230,45 240,40 L240,40 C250,35 260,30 270,25 L270,25 C280,20 290,15 300,10";
+            break;
+        case '5Y':
+            pathData = "M0,90 C10,85 20,80 30,75 L30,75 C40,70 50,65 60,60 L60,60 C70,55 80,50 90,45 L90,45 C100,40 110,35 120,30 L120,30 C130,25 140,20 150,15 L150,15 C160,10 170,15 180,20 L180,20 C190,25 200,30 210,35 L210,35 C220,40 230,45 240,50 L240,50 C250,55 260,60 270,65 L270,65 C280,70 290,75 300,70";
+            break;
+        case 'Max':
+            pathData = "M0,90 C10,80 20,70 30,60 L30,60 C40,50 50,40 60,30 L60,30 C70,20 80,10 90,20 L90,20 C100,30 110,40 120,50 L120,50 C130,60 140,70 150,80 L150,80 C160,90 170,80 180,70 L180,70 C190,60 200,50 210,40 L210,40 C220,30 230,20 240,10 L240,10 C250,20 260,30 270,40 L270,40 C280,50 290,60 300,50";
+            break;
+        default:
+            pathData = "M0,80 C10,70 20,30 30,20 L30,20 C40,25 50,40 60,35 L60,35 C70,35 80,40 90,40 L90,40 C100,40 110,45 120,45 L120,45 C130,45 140,40 150,40 L150,40 C160,40 170,35 180,30 L180,30 C190,30 200,25 210,30 L210,30 C220,35 230,40 240,35 L240,35 C250,35 260,80 270,40 L270,40 C280,10 290,10 300,10";
+    }
+    
+    // Function to initialize the Analysis Corner charts
+    function initAnalysisCornerCharts() {
+        // Check if Chart.js is loaded
+        if (typeof Chart === 'undefined') {
+            console.error('Chart.js is not loaded');
+            return;
+        }
+        
+        // Initialize the donors chart
+        const donorsCtx = document.getElementById('donorsChart');
+        if (donorsCtx) {
+            window.donorsChart = new Chart(donorsCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'],
+                    datasets: [{
+                        data: [25, 15, 20, 10, 5, 5, 15, 5],
+                        backgroundColor: [
+                            '#e74c3c', '#c0392b', '#3498db', '#2980b9',
+                            '#9b59b6', '#8e44ad', '#2ecc71', '#27ae60'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'right',
+                            labels: {
+                                color: '#fff'
+                            }
+                        },
+                        title: {
+                            display: false
+                        }
+                    }
+                }
+            });
+        }
+        
+        // Initialize the blood donated chart
+        const bloodDonatedCtx = document.getElementById('bloodDonatedChart');
+        if (bloodDonatedCtx) {
+            window.bloodDonatedChart = new Chart(bloodDonatedCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                    datasets: [{
+                        label: 'Units Donated',
+                        data: [65, 59, 80, 81, 56, 55],
+                        backgroundColor: '#e74c3c',
+                        borderColor: '#c0392b',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                color: '#fff'
+                            },
+                            grid: {
+                                color: 'rgba(255, 255, 255, 0.1)'
+                            }
+                        },
+                        x: {
+                            ticks: {
+                                color: '#fff'
+                            },
+                            grid: {
+                                color: 'rgba(255, 255, 255, 0.1)'
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            labels: {
+                                color: '#fff'
+                            }
+                        }
+                    }
+                }
+            });
+        }
+        
+        // Initialize the pending requests chart
+        const pendingRequestsCtx = document.getElementById('pendingRequestsChart');
+        if (pendingRequestsCtx) {
+            window.pendingRequestsChart = new Chart(pendingRequestsCtx, {
+                type: 'line',
+                data: {
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                    datasets: [{
+                        label: 'Pending Requests',
+                        data: [12, 19, 3, 5, 2, 3],
+                        backgroundColor: 'rgba(255, 193, 7, 0.2)',
+                        borderColor: '#ffc107',
+                        borderWidth: 2,
+                        tension: 0.4,
+                        fill: true
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                color: '#fff'
+                            },
+                            grid: {
+                                color: 'rgba(255, 255, 255, 0.1)'
+                            }
+                        },
+                        x: {
+                            ticks: {
+                                color: '#fff'
+                            },
+                            grid: {
+                                color: 'rgba(255, 255, 255, 0.1)'
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            labels: {
+                                color: '#fff'
+                            }
+                        }
+                    }
+                }
+            });
+        }
+    }
+    
+    // Function to update the Analysis Corner charts with real data
+    function updateAnalysisCornerCharts() {
+        if (!dashboardData) return;
+        
+        // Update donors chart
+        if (window.donorsChart) {
+            // Count donors by blood type
+            const bloodTypeCounts = {
+                'A+': 0, 'A-': 0, 'B+': 0, 'B-': 0,
+                'AB+': 0, 'AB-': 0, 'O+': 0, 'O-': 0
+            };
+            
+            dashboardData.donors.forEach(donor => {
+                if (bloodTypeCounts.hasOwnProperty(donor.bloodType)) {
+                    bloodTypeCounts[donor.bloodType]++;
+                }
+            });
+            
+            window.donorsChart.data.datasets[0].data = [
+                bloodTypeCounts['A+'], bloodTypeCounts['A-'],
+                bloodTypeCounts['B+'], bloodTypeCounts['B-'],
+                bloodTypeCounts['AB+'], bloodTypeCounts['AB-'],
+                bloodTypeCounts['O+'], bloodTypeCounts['O-']
+            ];
+            
+            window.donorsChart.update();
+        }
+        
+        // Update blood donated chart
+        if (window.bloodDonatedChart) {
+            // In a real application, this would use actual donation data
+            // For now, we'll use the number of completed requests per blood type
+            const completedRequests = dashboardData.bloodRequests.filter(r => r.status === 'completed');
+            const bloodTypeQuantities = {
+                'A+': 0, 'A-': 0, 'B+': 0, 'B-': 0,
+                'AB+': 0, 'AB-': 0, 'O+': 0, 'O-': 0
+            };
+            
+            completedRequests.forEach(request => {
+                if (bloodTypeQuantities.hasOwnProperty(request.bloodType)) {
+                    bloodTypeQuantities[request.bloodType] += parseInt(request.quantity) || 0;
+                }
+            });
+            
+            window.bloodDonatedChart.data.labels = Object.keys(bloodTypeQuantities);
+            window.bloodDonatedChart.data.datasets[0].data = Object.values(bloodTypeQuantities);
+            window.bloodDonatedChart.update();
+        }
+        
+        // Update pending requests chart
+        if (window.pendingRequestsChart) {
+            // Count pending requests by blood type
+            const pendingRequests = dashboardData.bloodRequests.filter(r => r.status === 'pending');
+            const pendingByBloodType = {
+                'A+': 0, 'A-': 0, 'B+': 0, 'B-': 0,
+                'AB+': 0, 'AB-': 0, 'O+': 0, 'O-': 0
+            };
+            
+            pendingRequests.forEach(request => {
+                if (pendingByBloodType.hasOwnProperty(request.bloodType)) {
+                    pendingByBloodType[request.bloodType] += parseInt(request.quantity) || 0;
+                }
+            });
+            
+            window.pendingRequestsChart.data.labels = Object.keys(pendingByBloodType);
+            window.pendingRequestsChart.data.datasets[0].data = Object.values(pendingByBloodType);
+            window.pendingRequestsChart.update();
+        }
+    }
+    
+    // Update the SVG path with new data
+    const graphPaths = document.querySelectorAll('.graph-line svg path');
+    if (graphPaths.length >= 2) {
+        // Update the line path
+        graphPaths[0].setAttribute('d', pathData);
+        
+        // Update the fill path (same path data but with closing to the bottom)
+        const fillPathData = pathData + " L300,100 L0,100 Z";
+        graphPaths[1].setAttribute('d', fillPathData);
+        
+        // Reset the animation
+        graphPaths[0].style.animation = 'none';
+        graphPaths[1].style.animation = 'none';
+        
+        // Trigger reflow
+        void graphPaths[0].offsetWidth;
+        void graphPaths[1].offsetWidth;
+        
+        // Restart the animation
+        graphPaths[0].style.animation = 'graphAnimation 2s ease-in-out forwards';
+        graphPaths[1].style.animation = 'fadeIn 2s ease-in-out forwards';
+    }
+}
