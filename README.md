@@ -59,8 +59,8 @@ The ER diagram ensures normalized relationships for scalability and integrity.
 
 ## **Collaboration Tools**
 
-* **Trello** – Task tracking (To Do, In Progress, Done)
-* **Google Meet & WhatsApp** – Team Meetings & Communication
+* **Github_projects** – Task tracking (To Do, In Progress, Done)
+* **Google Meet & WhatsApp_calls & slack** – Team Meetings & Communication
 
 ---
 
