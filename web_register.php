@@ -1,17 +1,28 @@
 <?php
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    print_r($_POST); // í±ˆ This will help you debug
+header('Content-Type: application/json');
 
-    $phoneNumber = $_POST['phoneNumber'] ?? null;
-    $idType = $_POST['idType'] ?? null;
-    $idNumber = $_POST['idNumber'] ?? null;
+// Get values
+$phoneNumber = $_POST['phoneNumber'] ?? null;
+$idType = $_POST['idType'] ?? null;
+$idNumber = $_POST['idNumber'] ?? null;
 
-    if (!$phoneNumber || !$idType || !$idNumber) {
-        echo json_encode(["status" => "error", "message" => "Missing parameters."]);
-        exit;
-    }
-
-    // Continue with registration logic...
+// Check all are present
+if ($phoneNumber && $idType && $idNumber) {
+    // Success response
+    echo json_encode([
+        'status' => 'success',
+        'message' => 'User registered successfully!',
+        'data' => [
+            'phoneNumber' => $phoneNumber,
+            'idType' => $idType,
+            'idNumber' => $idNumber
+        ]
+    ]);
+} else {
+    echo json_encode([
+        'status' => 'error',
+        'message' => 'Missing parameters.'
+    ]);
 }
 ?>
