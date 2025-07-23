@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live Donor Map</title>
+    
+    <!-- Link to the Leaflet library's CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+
+    <!-- Link to our new, separate CSS file -->
+    <link rel="stylesheet" href="map_style.css">
+</head>
+<body>
+    <div class="map-container">
+        <h1>Live Donor Map</h1>
+        <p>Use the filter below to see donors with a specific blood type.</p>
+
+        <div class="filter-controls">
+            <label for="bloodTypeFilter"><strong>Filter by Blood Type:</strong></label>
+            <select id="bloodTypeFilter">
+                <option value="all">Show All</option>
+                <option value="A+">A+</option>
+                <option value="A-">A-</option>
+                <option value="B+">B+</option>
+                <option value="B-">B-</option>
+                <option value="O+">O+</option>
+                <option value="O-">O-</option>
+                <option value="AB+">AB+</option>
+                <option value="AB-">AB-</option>
+            </select>
+        </div>
+
+        <!-- This div is where our Leaflet map will be rendered -->
+        <div id="map"></div>
+        
+        <!-- A link to go back to the main dashboard -->
+        <a href="index.html" class="back-link">← Back to Main Dashboard</a>
+    </div>
+
+    <!-- Link to the Leaflet library's JavaScript -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+    <!-- Link to our new, separate JavaScript file -->
+    <script src="map_logic.js"></script>
+</body>
+</html>
