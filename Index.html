@@ -5,7 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Save Life</title>
     <link rel="stylesheet" href="style.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
 <div class="hero-section hidden">
@@ -44,8 +45,7 @@
             <span>Scroll Down</span>
         </div>
     </div>
-    
-    <!-- Help Container -->
+    <!-- Help Container  -->
 
     <div class="help-container">
         <div class="help-icon">?</div>
@@ -64,7 +64,7 @@
         </div>
     </div>
 
-    <!-- Animated Background -->
+    <!-- Animated Background. -->
 
 
     <div class="animated-bg">
@@ -83,26 +83,8 @@
     <div id="homepage" class="page">
         <div class="header">
             <div class="logo">
-                <span aria-label="logo" style="display:inline-flex;align-items:center; color:inherit;">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-6.5-4.35-9-7.5C-1.5 8.5 3.5 3 8 7c1.54 1.5 2.5 2.5 4 4 1.5-1.5 2.46-2.5 4-4 4.5-4 9.5 1.5 5 6.5-2.5 3.15-9 7.5-9 7.5z"/></svg>
-                </span>
+                <span>❤️</span>
                 <span>Save Life</span>
-            </div>
-            <div class="theme-toggle-group" style="display: flex; align-items: center; gap: 4px;">
-                <span class="theme-label" style="font-size: 14px; color: #888;">Theme</span>
-                <button id="theme-toggle" class="theme-toggle-btn" aria-label="Toggle dark mode">
-                    <span id="theme-toggle-icon">
-                        <svg id="moon-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3a7 7 0 0 0 9.79 9.79z"/></svg>
-                        <svg id="sun-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none;"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
-                    </span>
-                </button>
-                <div class="dropdown" style="position: relative; margin-left: 16px;">
-                    <button class="btn btn-outline" id="info-dropdown-btn" style="padding: 8px 16px;">Info ▼</button>
-                    <div class="dropdown-content" id="info-dropdown-content" style="display: none; position: absolute; right: 0; top: 110%; background: #fff; min-width: 160px; box-shadow: 0 4px 16px rgba(0,0,0,0.12); border-radius: 8px; z-index: 100;">
-                        <a href="about.html" id="about-link" style="display: block; padding: 10px 18px; color: #333; text-decoration: none; border-bottom: 1px solid #eee;">About</a>
-                        <a href="mission.html" id="mission-link" style="display: block; padding: 10px 18px; color: #333; text-decoration: none;">Our Mission</a>
-                    </div>
-                </div>
             </div>
             <div class="nav-buttons">
                 <button class="btn btn-outline" onclick="showPage('admin-login')">Admin Login</button>
@@ -205,22 +187,20 @@
                 </div>
             </div>
             <div class="footer-bottom">
-                &copy; 2025 Save Life 
+                &copy; 2025 Save Life
             </div>
         </div>
     </div>
 
 
-    <!-- admin Login -->
+    <!-- admin-Login -->
 
 
     <div id="admin-login" class="page hidden">
         <div class="container">
             <div class="login-form">
                 <div class="form-title">
-                    <span style="font-size: 40px; display:inline-flex;align-items:center;">
-                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="10" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-                    </span>
+                    <span style="font-size: 40px;">🔐</span>
                     <h2>Admin Login</h2>
                     <p>Access the admin panel to manage hospital registrations</p>
                 </div>
@@ -231,9 +211,7 @@
                 </div>
                 
                 <div id="admin-error" class="error-message hidden">
-                    <span class="error-icon" style="display:inline-flex;align-items:center;">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4M12 17h.01"/><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/></svg>
-                    </span>
+                    <span class="error-icon">⚠️</span>
                     <p>Invalid credentials. Please try again.</p>
                 </div>
                 <form id="admin-login-form" onsubmit="adminLogin(event)">
@@ -255,16 +233,14 @@
     </div>
 
 
-    <!-- hospital login -->
+    <!-- hospital logn -->
      
     
     <div id="hospital-login" class="page hidden">
         <div class="container">
             <div class="login-form">
                 <div class="form-title">
-                    <span style="font-size: 40px; display:inline-flex;align-items:center;">
-                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
-                    </span>
+                    <span style="font-size: 40px;">🏥</span>
                     <h2>Hospital Login</h2>
                     <p>Access your hospital dashboard to request blood</p>
                 </div>
@@ -275,9 +251,7 @@
                 </div>
         
                 <div id="hospital-error" class="error-message hidden">
-                    <span class="error-icon" style="display:inline-flex;align-items:center;">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4M12 17h.01"/><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/></svg>
-                    </span>
+                    <span class="error-icon">⚠️</span>
                     <p>Invalid credentials or hospital not approved yet.</p>
                 </div>
                 <form onsubmit="hospitalLogin(event)">
@@ -307,24 +281,18 @@
         <div class="container">
             <div class="register-form">
                 <div class="form-title">
-                    <span style="font-size: 40px; display:inline-flex;align-items:center;">
-                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 11h-6"/><path d="M19 18v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/></svg>
-                    </span>
+                    <span style="font-size: 40px;">👤</span>
                     <h2>Donor Registration</h2>
                     <p>Join our network of life-saving blood donors. Get alerts when your blood type is needed nearby.</p>
                 </div>
               
                 <div id="donor-success" class="success-message hidden">
-                    <span class="success-icon" style="display:inline-flex;align-items:center;">
-                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11h-6"/><path d="M19 18v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/></svg>
-                    </span>
+                    <span class="success-icon">✅</span>
                     <p>Registration successful! You'll receive alerts when your blood type is needed.</p>
                 </div>
     
                 <div id="donor-error" class="error-message hidden">
-                    <span class="error-icon" style="display:inline-flex;align-items:center;">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4M12 17h.01"/><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/></svg>
-                    </span>
+                    <span class="error-icon">⚠️</span>
                     <p id="donor-error-text">Registration failed. Please try again.</p>
                 </div>
                 <form onsubmit="donorRegister(event)">
@@ -376,24 +344,18 @@
         <div class="container">
             <div class="register-form">
                 <div class="form-title">
-                    <span style="font-size: 40px; display:inline-flex;align-items:center;">
-                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
-                    </span>
+                    <span style="font-size: 40px;">🏥</span>
                     <h2>Hospital Registration</h2>
                     <p>Register your hospital to access blood donors. Your registration will be reviewed by our admin team.</p>
                 </div>
                 
                 <div id="hospital-success" class="success-message hidden">
-                    <span class="success-icon" style="display:inline-flex;align-items:center;">
-                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
-                    </span>
+                    <span class="success-icon">✅</span>
                     <p>Registration submitted for review! You'll receive an email confirmation once approved.</p>
                 </div>
         
                 <div id="hospital-reg-error" class="error-message hidden">
-                    <span class="error-icon" style="display:inline-flex;align-items:center;">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4M12 17h.01"/><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/></svg>
-                    </span>
+                    <span class="error-icon">⚠️</span>
                     <p id="hospital-reg-error-text">Registration failed. Please try again.</p>
                 </div>
                 <form onsubmit="hospitalRegister(event)">
@@ -469,6 +431,11 @@
                 <div class="number">0</div>
                 <div class="label">Successful Matches</div>
             </div>
+            <div class="stat-card purple" onclick="viewHospitalSection('blood-inventory')" style="cursor: pointer; border-left: 4px solid #9b59b6;">
+                <div class="icon">🧪</div>
+                <div class="number">0</div>
+                <div class="label">Blood Inventory</div>
+            </div>
         </div>
 
         <div class="donors-section">
@@ -477,8 +444,18 @@
                 Click on any stat card above to view detailed information.</p>
             <div class="no-donors">
                 <span style="font-size: 60px;">📊</span>
-               <a href="hospital_map.html" target="_self"> <p>Select a stat card to view more information</p></a> 
->>>>>>> f1e14735f0160a05f269e3d60ca23d4d73f93968
+                <p>Select a stat card to view more information</p>
+                <div class="map-link">
+                    <a href="hospital_map.html" class="btn btn-outline" style="margin-top: 20px;">
+                        <i class="fas fa-map-marker-alt" style="margin-right: 8px;"></i> View Blood Donor Map
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer" style="margin-top: 50px;">
+            <div class="footer-bottom">
+                &copy; 2025 Save Life
             </div>
         </div>
     </div>
@@ -504,30 +481,22 @@
         <div class="dashboard">
 
             <div class="stat-card red" onclick="viewAdminSection('hospitals')" style="cursor: pointer;">
-                <div class="icon">
-                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M16 3v4M8 3v4M3 11h18"/></svg>
-                </div>
+                <div class="icon">🏥</div>
                 <div class="number">0</div>
                 <div class="label">Total Hospitals</div>
             </div>
             <div class="stat-card orange" onclick="viewAdminSection('pending')" style="cursor: pointer;">
-                <div class="icon">
-                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
-                </div>
+                <div class="icon">⏳</div>
                 <div class="number">0</div>
                 <div class="label">Pending Approvals</div>
             </div>
             <div class="stat-card blue" onclick="viewAdminSection('donors')" style="cursor: pointer;">
-                <div class="icon">
-                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="7" r="4"/><path d="M5.5 21a7.5 7.5 0 0 1 13 0"/></svg>
-                </div>
+                <div class="icon">👥</div>
                 <div class="number">0</div>
                 <div class="label">Total Donors</div>
             </div>
             <div class="stat-card green" onclick="viewAdminSection('requests')" style="cursor: pointer;">
-                <div class="icon">
-                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><rect x="7" y="13" width="3" height="5"/><rect x="12" y="9" width="3" height="9"/><rect x="17" y="5" width="3" height="13"/></svg>
-                </div>
+                <div class="icon">📊</div>
                 <div class="number">0</div>
                 <div class="label">Blood Requests</div>
             </div>
@@ -541,6 +510,35 @@
                 <span style="font-size: 60px;">📊</span>
                 <p>Select a stat card to view more information</p>
             </div>
+        </div>
+    </div>
+    
+    <div class="footer" style="margin-top: 50px; background: #1e2a38; padding: 20px 0;">
+        <div class="analysis-corner">
+            <h3 style="color: white; margin-bottom: 10px; font-size: 1.5rem;">Analysis Corner</h3>
+            <div class="charts-container" style="display: flex; flex-wrap: wrap; gap: 10px; justify-content: space-between;">
+                <div style="flex: 1; min-width: 200px;">
+                    <h4 style="color: white; margin-bottom: 5px; font-size: 1rem;">Donors Overview</h4>
+                    <div style="height: 150px; position: relative;">
+                        <canvas id="donorsChart"></canvas>
+                    </div>
+                </div>
+                <div style="flex: 1; min-width: 200px;">
+                    <h4 style="color: white; margin-bottom: 5px; font-size: 1rem;">Blood Donated</h4>
+                    <div style="height: 150px; position: relative;">
+                        <canvas id="bloodDonatedChart"></canvas>
+                    </div>
+                </div>
+                <div style="flex: 1; min-width: 200px;">
+                    <h4 style="color: white; margin-bottom: 5px; font-size: 1rem;">Pending Requests</h4>
+                    <div style="height: 150px; position: relative;">
+                        <canvas id="pendingRequestsChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom" style="margin-top: 20px; text-align: center; padding: 10px; border-top: 1px solid #3a506b; color: #d3d3d3;">
+            &copy; 2025 Save Life
         </div>
     </div>
 </div>
