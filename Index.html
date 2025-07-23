@@ -5,8 +5,45 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Save Life</title>
     <link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
 <body>
+<div class="hero-section hidden">
+        <div class="hero-background">
+            <div class="parallax-layer"></div>
+            <div class="parallax-layer"></div>
+            <div class="parallax-layer"></div>
+        </div>
+        <div class="hero-content">
+            <div class="hero-text">
+                <h1 class="hero-title">Give the Gift of Life, Donate Blood</h1>
+                <p class="hero-description">
+                    Your donation can save up to three lives. Join our community of heroes and make a difference today. It's simple, safe, and incredibly rewarding.
+                </p>
+                <div class="hero-stats">
+                    <div class="stat-item">
+                        <div class="stat-number">15k+</div>
+                        <div class="stat-label">Donors</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">5k+</div>
+                        <div class="stat-label">Lives Saved</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">50+</div>
+                        <div class="stat-label">Partner Hospitals</div>
+                    </div>
+                </div>
+            </div>
+            <div class="hero-visual">
+                <img src="uploads/donor-lady.png" alt="Donor smiling" style="width: 600px; height: auto; border-radius: 0; box-shadow: none;">
+            </div>
+        </div>
+        <div class="scroll-indicator">
+            <div class="scroll-arrow">↓</div>
+            <span>Scroll Down</span>
+        </div>
+    </div>
     
     <!-- Help Container -->
 
@@ -49,19 +86,6 @@
                 <span>❤️</span>
                 <span>Save Life</span>
             </div>
-            <div class="theme-toggle-group" style="display: flex; align-items: center; gap: 4px;">
-                <span class="theme-label" style="font-size: 14px; color: #888;">Theme</span>
-                <button id="theme-toggle" class="theme-toggle-btn" aria-label="Toggle dark mode">
-                    <span id="theme-toggle-icon">🌙</span>
-                </button>
-                <div class="dropdown" style="position: relative; margin-left: 16px;">
-                    <button class="btn btn-outline" id="info-dropdown-btn" style="padding: 8px 16px;">Info ▼</button>
-                    <div class="dropdown-content" id="info-dropdown-content" style="display: none; position: absolute; right: 0; top: 110%; background: #fff; min-width: 160px; box-shadow: 0 4px 16px rgba(0,0,0,0.12); border-radius: 8px; z-index: 100;">
-                        <a href="about.html" id="about-link" style="display: block; padding: 10px 18px; color: #333; text-decoration: none; border-bottom: 1px solid #eee;">About</a>
-                        <a href="mission.html" id="mission-link" style="display: block; padding: 10px 18px; color: #333; text-decoration: none;">Our Mission</a>
-                    </div>
-                </div>
-            </div>
             <div class="nav-buttons">
                 <button class="btn btn-outline" onclick="showPage('admin-login')">Admin Login</button>
                 <button class="btn btn-outline" onclick="showPage('hospital-login')">Hospital Login</button>
@@ -79,55 +103,92 @@
             <div class="main-content">
                 <div class="registration-card">
                     <div class="icon">🏥</div>
-                    <h3>Hospital Registration</h3>
-                    <p>Register your hospital and manage blood donations more efficiently.</p>
+                    <h3>For Hospitals</h3>
+                    <p>Streamline your blood supply chain. Access a network of willing donors and manage requests efficiently.</p>
                     <ul>
-                        <li>Get continuous communication</li>
-                        <li>Secure and approve hospital registrations with RBC certificates</li>
-                        <li>Available Donors List</li>
+                        <li>Instant access to a diverse donor pool</li>
+                        <li>Real-time tracking of blood requests</li>
+                        <li>Secure and verified hospital registration</li>
                     </ul>
-                    <button class="btn btn-primary" onclick="showPage('hospital-register')">Hospital Registration</button>
+                    <button class="btn btn-primary" onclick="showPage('hospital-register')">Register Your Hospital</button>
                 </div>
 
                 <div class="registration-card">
                     <div class="icon">👤</div>
-                    <h3>Donor Registration</h3>
-                    <p>Join our network of life-saving blood donors. Get alerts when your blood type is needed nearby.</p>
+                    <h3>For Donors</h3>
+                    <p>Become a hero in your community. Your single donation can save multiple lives. Get notified when you're needed.</p>
                     <ul>
-                        <li>Online registration process directly</li>
-                        <li>Registration successful; You'll receive alerts when your blood type is needed</li>
+                        <li>Simple and quick registration process</li>
+                        <li>Receive alerts based on your blood type and location</li>
+                        <li>Be a part of a life-saving mission</li>
                     </ul>
-                    <button class="btn btn-secondary" onclick="showPage('donor-register')">Donor Registration</button>
+                    <button class="btn btn-secondary" onclick="showPage('donor-register')">Become a Donor</button>
                 </div>
             </div>
 
             <div class="how-it-works">
-                <h2>How It Works</h2>
+                <h2>Simple Steps to Save a Life</h2>
                 <div class="steps">
                     <div class="step">
-                        <div class="step-number">1</div>
-                        <h3>Register</h3>
-                        <p>Hospitals and donors register on our platform</p>
+                        <div class="step-icon">📝</div>
+                        <h3>Register in Minutes</h3>
+                        <p>Create your secure profile as a donor or hospital. It's fast, easy, and the first step to making a difference.</p>
                     </div>
                     <div class="step">
-                        <div class="step-number">2</div>
-                        <h3>Alert</h3>
-                        <p>Hospitals request blood, donors get instant alerts</p>
+                        <div class="step-icon">🔔</div>
+                        <h3>Get Real-Time Alerts</h3>
+                        <p>Hospitals post urgent needs, and our system instantly notifies matching donors in the area.</p>
                     </div>
                     <div class="step">
-                        <div class="step-number">3</div>
-                        <h3>Connect</h3>
-                        <p>Donors respond and hospitals connect directly</p>
+                        <div class="step-icon">🤝</div>
+                        <h3>Connect & Donate</h3>
+                        <p>Donors respond to alerts, connect directly with the hospital, and facilitate a life-saving donation.</p>
                     </div>
                 </div>
             </div>
-
-            <!-- Hospitals We Work With Section -->
-
         </div>
 
         <div class="footer">
-            © 2025 Save Life. Connecting donors with hospitals to save lives.
+            <div class="footer-content">
+                <div class="footer-section about">
+                    <h3 class="logo-text"><span>❤️</span> Save Life</h3>
+                    <p>
+                        We are dedicated to connecting blood donors with those in need. Our platform is a bridge between hospitals and voluntary donors, making the process of blood donation seamless and efficient.
+                    </p>
+                    <div class="contact">
+                        <span><i class="fas fa-phone"></i> &nbsp; 123-456-789</span>
+                        <span><i class="fas fa-envelope"></i> &nbsp; info@savelife.com</span>
+                    </div>
+                    <div class="socials">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+                <div class="footer-section links">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <a href="#"><li>About Us</li></a>
+                        <a href="#"><li>Feedback</li></a>
+                        <a href="#"><li>Privacy Policy</li></a>
+                        <a href="#"><li>Terms of Service</li></a>
+                    </ul>
+                </div>
+                <div class="footer-section contact-form">
+                    <h3>Feedback</h3>
+                    <form action="#" method="post">
+                        <input type="email" name="email" class="text-input contact-input" placeholder="Your email address...">
+                        <textarea rows="4" name="message" class="text-input contact-input" placeholder="Your message..."></textarea>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-paper-plane"></i>
+                            Send
+                        </button>
+                    </form>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                &copy; 2025 Save Life 
+            </div>
         </div>
     </div>
 
@@ -171,8 +232,10 @@
         </div>
     </div>
 
-    <!-- hospital login -->
 
+    <!-- hospital login -->
+     
+    
     <div id="hospital-login" class="page hidden">
         <div class="container">
             <div class="login-form">
@@ -210,7 +273,9 @@
         </div>
     </div>
 
+
     <!-- Donor Registration -->
+
 
         <div id="donor-register" class="page hidden">
         <div class="container">
@@ -271,7 +336,9 @@
         </div>
     </div>
 
+
     <!-- hospital registration -->
+
 
     <div id="hospital-register" class="page hidden">
         <div class="container">
@@ -331,50 +398,52 @@
 
 
     <div id="hospital-dashboard" class="page hidden">
-        <div class="header">
-            <div class="logo">
-                <span>🏥</span>
-                <span>Hospital Dashboard</span>
+    <div class="header">
+        <div class="logo">
+            <span>🏥</span>
+            <span>Hospital Dashboard</span>
+        </div>
+        <div class="nav-buttons">
+            <button class="btn btn-primary" onclick="showBloodRequestModal()">Request Blood</button>
+            <button class="btn btn-outline" onclick="logout()">Logout</button>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="dashboard">
+            <div class="stat-card red" onclick="viewHospitalSection('requests')" style="cursor: pointer;">
+                <div class="icon">🩸</div>
+                <div class="number">0</div>
+                <div class="label">Total Requests</div>
             </div>
-            <div class="nav-buttons">
-                <button class="btn btn-primary" onclick="showBloodRequestModal()">Request Blood</button>
-                <button class="btn btn-outline" onclick="logout()">Logout</button>
+            <div class="stat-card orange" onclick="viewHospitalSection('pending')" style="cursor: pointer;">
+                <div class="icon">⚠️</div>
+                <div class="number">0</div>
+                <div class="label">Pending Requests</div>
+            </div>
+            <div class="stat-card blue" onclick="viewHospitalSection('donors')" style="cursor: pointer;">
+                <div class="icon">👥</div>
+                <div class="number">0</div>
+                <div class="label">Available Donors</div>
+            </div>
+            <div class="stat-card green" onclick="viewHospitalSection('completed')" style="cursor: pointer;">
+                <div class="icon">✅</div>
+                <div class="number">0</div>
+                <div class="label">Successful Matches</div>
             </div>
         </div>
 
-        <div class="container">
-            <div class="dashboard">
-                <div class="stat-card red">
-                    <div class="icon">🩸</div>
-                    <div class="number">0</div>
-                    <div class="label">Total Requests</div>
-                </div>
-                <div class="stat-card orange">
-                    <div class="icon">⚠️</div>
-                    <div class="number">0</div>
-                    <div class="label">Pending Requests</div>
-                </div>
-                <div class="stat-card blue">
-                    <div class="icon">👥</div>
-                    <div class="number">0</div>
-                    <div class="label">Available Donors</div>
-                </div>
-                <div class="stat-card green">
-                    <div class="icon">✅</div>
-                    <div class="number">0</div>
-                    <div class="label">Successful Matches</div>
-                </div>
-            </div>
-
-            <div class="donors-section">
-                <h2>Available Donors</h2>
-                <div class="no-donors">
-                    <span style="font-size: 60px;">👥</span>
-                    <p>No donors available</p>
-                </div>
+        <div class="donors-section">
+            <h2>Dashboard Overview</h2>
+            <p style="margin-bottom: 20px; color: #666;">Welcome to your Hospital Dashboard. Here you can manage blood requests, view available donors, and track your donation activities.<br>
+                Click on any stat card above to view detailed information.</p>
+            <div class="no-donors">
+                <span style="font-size: 60px;">📊</span>
+                <p>Select a stat card to view more information</p>
             </div>
         </div>
     </div>
+</div>
 
 
     <!-- Admin Dashboard -->
@@ -419,18 +488,19 @@
 
         <div class="donors-section">
             <h2>Details</h2>
-            <p style="margin-bottom: 20px; color: #666;">Click on a stat card above to view detailed information</p>
+            <p style="margin-bottom: 20px; color: #666;">Welcome to the Admin Dashboard. Here, you can manage content, users, and settings to ensure the smooth operation of the platform.<br>
+                 Use the navigation menu to access different sections and monitor activity</p>
             <div class="no-donors">
                 <span style="font-size: 60px;">📊</span>
                 <p>Select a stat card to view more information</p>
             </div>
         </div>
     </div>
-
+</div>
 
     <!-- blood request modal -->
 
-    
+
     <div id="blood-request-modal" class="modal">
         <div class="modal-content">
             <span class="close" onclick="closeModal()">×</span>
@@ -473,23 +543,6 @@
             </form>
         </div>
     </div>
-
-    <!-- About Modal -->
-<div id="about-modal" class="modal" style="display:none;">
-    <div class="modal-content" style="max-width: 400px;">
-        <span class="close" onclick="closeInfoModal('about-modal')">&times;</span>
-        <h2>About Save Life</h2>
-        <p>Save Life is a platform dedicated to connecting blood donors with hospitals in need, making the process of blood donation and transfusion more efficient and accessible for everyone.</p>
-    </div>
-</div>
-<!-- Mission Modal -->
-<div id="mission-modal" class="modal" style="display:none;">
-    <div class="modal-content" style="max-width: 400px;">
-        <span class="close" onclick="closeInfoModal('mission-modal')">&times;</span>
-        <h2>Our Mission</h2>
-        <p>Our mission is to save lives by bridging the gap between blood donors and hospitals, ensuring timely and safe blood transfusions for those in need.</p>
-    </div>
-</div>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
