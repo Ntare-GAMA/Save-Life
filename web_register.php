@@ -9,10 +9,14 @@ $idNumber = $_POST['idNumber'] ?? null;
 
 // Check all are present
 if ($phoneNumber && $idType && $idNumber) {
-    // Success response
+    // ✅ Save to text file
+    $logEntry = "$phoneNumber | $idType | $idNumber\n";
+    file_put_contents("registrations.txt", $logEntry, FILE_APPEND);
+
+    // 📩 Simulate SMS notification (this is just part of the response, no real SMS sent)
     echo json_encode([
         'status' => 'success',
-        'message' => 'User registered successfully!',
+        'message' => 'Registration complete. SMS sent to user!',
         'data' => [
             'phoneNumber' => $phoneNumber,
             'idType' => $idType,
