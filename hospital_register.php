@@ -3,27 +3,38 @@
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-
+// Set content type to plain text for better debugging
+header('Content-Type: text/plain');
 header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Methods: POST, GET, OPTIONS');
 header('Access-Control-Allow-Headers: Content-Type');
 
-
-if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     exit(0);
 }
 
+// Debug: Log the request
+error_log("Hospital registration request received at " . date('Y-m-d H:i:s'));
+
 try {
- 
+    // Debug: Log POST data (without password)
+    error_log("POST data received: " . json_encode(array_merge($_POST, ['password' => '[HIDDEN]'])));
+    error_log("FILES data: " . json_encode($_FILES));
+
     $conn = new mysqli("localhost", "root", "", "savelife");
-    
+
     if ($conn->connect_error) {
         throw new Exception("Connection failed: " . $conn->connect_error);
     }
-    
 
+    // Check required fields
     if (empty($_POST['name']) || empty($_POST['email']) || empty($_POST['password']) || empty($_POST['location'])) {
-        throw new Exception("Missing required form data");
+        $missing = [];
+        if (empty($_POST['name'])) $missing[] = 'name';
+        if (empty($_POST['email'])) $missing[] = 'email';
+        if (empty($_POST['password'])) $missing[] = 'password';
+        if (empty($_POST['location'])) $missing[] = 'location';
+        throw new Exception("Missing required form data: " . implode(', ', $missing));
     }
     
     $name = mysqli_real_escape_string($conn, trim($_POST['name']));
@@ -110,8 +121,8 @@ try {
     if ($stmt->execute()) {
         echo "success";
     } else {
-
-        if (file_exists($targetPath)) {
+        // Clean up uploaded file if database insert fails
+        if (isset($targetPath) && file_exists($targetPath)) {
             unlink($targetPath);
         }
         throw new Exception("Database insert failed: " . $stmt->error);

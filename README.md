@@ -29,16 +29,15 @@ Save Life aims to make the process of connecting blood donors with hospitals fas
 
 ### **Frontend**
 
-* **Next.js**
-* **React**
-* **TypeScript**
-* **Tailwind CSS**
-* **PNPM**
+* **HTML5**
+* **CSS3**
+* **Javascript**
+
 
 ### **Backend**
 
-* **Node.js**
-* **Express.js** (planned)
+* **PHP**
+* **SQL** 
 * **MySQL** (Relational Database)
 
 ### **Design**
@@ -52,7 +51,7 @@ Save Life aims to make the process of connecting blood donors with hospitals fas
 
 * **Donors Table**
 * **Hospitals Table**
-* **Messages Table**
+* **blood_request table**
 
 The ER diagram ensures normalized relationships for scalability and integrity.
 
@@ -60,8 +59,8 @@ The ER diagram ensures normalized relationships for scalability and integrity.
 
 ## **Collaboration Tools**
 
-* **Trello** – Task tracking (To Do, In Progress, Done)
-* **Google Meet & WhatsApp** – Team Meetings & Communication
+* **Github_Projects** – Task tracking (To Do, In Progress, Done)
+* **Google Meet & WhatsApp & Slack** – Team Meetings & Communication
 
 ---
 

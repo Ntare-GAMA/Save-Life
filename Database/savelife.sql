@@ -52,8 +52,8 @@ CREATE TABLE `donors` (
   `bloodType` varchar(5) DEFAULT NULL,
   `location` text DEFAULT NULL,
   `registeredAt` datetime DEFAULT NULL,
-  'donor_lat' DECIMAL(10, 8) NULL,
- 'donor_lng' DECIMAL(11, 8) NULL;
+  `donor_lat` DECIMAL(10, 8) NULL,
+  `donor_lng` DECIMAL(11, 8) NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --

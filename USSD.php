@@ -1,56 +1,70 @@
 <?php
-// Simulate SMS sending function
-function send_sms($phoneNumber, $message) {
-    // In real implementation: use Twilio, Africa's Talking, etc.
-    // Example: send to both donor and RBC
-    file_put_contents("sms_log.txt", "To: $phoneNumber - $message\n", FILE_APPEND);
-}
+// Set response content type
+header('Content-type: text/plain');
 
-// Collect USSD input
-$sessionId   = $_POST["sessionId"];
-$serviceCode = $_POST["serviceCode"];
-$phoneNumber = $_POST["phoneNumber"];
-$text        = $_POST["text"];
+// Collect input
+$sessionId   = $_POST["sessionId"] ?? '';
+$serviceCode = $_POST["serviceCode"] ?? '';
+$phoneNumber = $_POST["phoneNumber"] ?? '';
+$text        = $_POST["text"] ?? '';
 
-$input = explode("*", $text);
-$level = count($input);
+// Split input into levels
+$levels = explode("*", $text);
 
-if ($text == "") {
-    echo "CON Welcome to Save Life USSD\n";
-    echo "1. Register as Donor\n";
-    echo "2. Exit";
-}
-elseif ($input[0] == "1") {
-    if ($level == 1) {
-        echo "CON Choose ID type:\n";
-        echo "1. National ID\n";
-        echo "2. Passport";
-    } elseif ($level == 2) {
-        echo "CON Enter your ID number:";
-    } elseif ($level == 3) {
-        $idType = $input[1] == "1" ? "National ID" : "Passport";
-        $idNumber = $input[2];
+// Define blood types
+$bloodTypes = [
+    "1" => "A+", "2" => "A-", "3" => "B+",
+    "4" => "B-", "5" => "AB+", "6" => "AB-",
+    "7" => "O+", "8" => "O-"
+];
 
-        // Basic validation
-        if ($input[1] == "1" && strlen($idNumber) != 16) {
-            echo "END Invalid National ID. It must be 16 digits.";
+// Menu logic
+switch (count($levels)) {
+    case 1:
+        if ($text == "") {
+            echo "CON Welcome to SaveLife 🩸\n";
+            echo "Join our life-saving donor network.\n";
+            echo "1. Register as Donor\n";
+            echo "2. Exit";
+        } elseif ($text == "1") {
+            echo "CON Enter your full name:";
+        } elseif ($text == "2") {
+            echo "END Thank you for visiting SaveLife.";
         } else {
-            // Simulate saving to DB here
-            // You can use mysqli_query(...) to store it in a real DB
-
-            // Send SMS to user and RBC
-            $message = "Save Life: You ($idType: $idNumber) have been registered as a blood donor.";
-            send_sms($phoneNumber, $message);
-            send_sms("+250788000000", "New Donor Registered: $phoneNumber - $idType $idNumber (Notify RBC)");
-
-            echo "END Thank you. You are now registered as a blood donor.\n";
-            echo "An SMS has been sent to you and RBC.";
+            echo "END Invalid input.";
         }
-    }
-} elseif ($input[0] == "2") {
-    echo "END Thank you for using Save Life.";
-} else {
-    echo "END Invalid option.";
+        break;
+
+    case 2:
+        echo "CON Select your blood type:\n";
+        foreach ($bloodTypes as $key => $value) {
+            echo "$key. $value\n";
+        }
+        break;
+
+    case 3:
+        $blood = $bloodTypes[$levels[2]] ?? null;
+        if ($blood) {
+            echo "CON Enter your location (e.g. Kigali, Kicukiro):";
+        } else {
+            echo "END Invalid blood type selection.";
+        }
+        break;
+
+    case 4:
+        $name     = trim($levels[1]);
+        $blood    = $bloodTypes[$levels[2]] ?? 'Unknown';
+        $location = trim($levels[3]);
+
+        // Sanitize & Save to a file
+        $entry = "Name: $name | Phone: $phoneNumber | Blood Type: $blood | Location: $location\n";
+        file_put_contents("donors.txt", $entry, FILE_APPEND);
+
+        echo "END Thank you $name ($blood)!\nYou're now registered with SaveLife 🩸";
+        break;
+
+    default:
+        echo "END Something went wrong. Please try again.";
+        break;
 }
 ?>
-

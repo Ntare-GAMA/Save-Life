@@ -67,7 +67,7 @@ function hospitalLogin(event) {
     if (loadingDiv) loadingDiv.classList.remove('hidden');
     if (errorDiv) errorDiv.classList.add('hidden');
 
-    fetch('http://localhost/savelife/hospital_login.php', {
+    fetch('hospital_login.php', {
         method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
         body: new URLSearchParams({ email, password })
@@ -354,7 +354,7 @@ function donorRegister(event) {
     if (successDiv) successDiv.classList.add('hidden');
     if (errorDiv) errorDiv.classList.add('hidden');
 
-    fetch('http://localhost/savelife/donor_register.php', {
+    fetch('donor_register.php', {
         method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
         body: new URLSearchParams(data)
@@ -474,7 +474,7 @@ function hospitalRegister(event) {
         submitButton.textContent = 'Uploading...';
         submitButton.disabled = true;
 
-        fetch('http://localhost/savelife/hospital_register.php', {
+        fetch('hospital_register.php', {
             method: 'POST',
             body: formData
         })
@@ -515,7 +515,10 @@ function hospitalRegister(event) {
                 if (errorDiv) {
                     errorDiv.classList.remove('hidden');
                     const errorText = document.getElementById('hospital-reg-error-text');
-                    if (errorText) errorText.textContent = result;
+                    if (errorText) {
+                        // Show the full server response for debugging
+                        errorText.textContent = result.startsWith('Error:') ? result : 'Registration failed: ' + result;
+                    }
                 }
             }
         })
@@ -559,7 +562,7 @@ function createBloodRequest(event) {
         submitButton.textContent = 'Sending...';
         submitButton.disabled = true;
 
-        fetch('http://localhost/savelife/create_request.php', {
+        fetch('create_request.php', {
             method: 'POST',
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
             body: new URLSearchParams(data)
@@ -587,8 +590,42 @@ function createBloodRequest(event) {
     }
 }
 
+function sendAlertsToDonors(bloodType) {
+    const filteredDonors = donors.filter(d => {
+        return d.bloodType.toLowerCase() === bloodType.toLowerCase() &&
+               d.location === currentUser.location;
+             
+    });
+
+    
+    const logContainer = document.getElementById("alert-log");
+    logContainer.innerHTML = ""; // clear previous logs
+
+    if (filteredDonors.length === 0) {
+        logContainer.innerHTML = `<p>No matching donors found for blood type <strong>${bloodType}</strong> in your area.</p>`;
+        return;
+    }
+
+    const message = `🩸 Urgent need for ${bloodType} blood at ${currentUser.name}. Please help!`;
+
+    const list = document.createElement('ul');
+
+    filteredDonors.forEach(donor => {
+        const entry = document.createElement('li');
+        entry.innerHTML = `
+            ✔️ Alert to <strong>${donor.name}</strong> 
+            (<code>${donor.phone}</code>${donor.whatsapp ? `, WhatsApp: <code>${donor.whatsapp}</code>` : ''}) – 
+            Message: "<em>${message}</em>"
+        `;
+        list.appendChild(entry);
+    });
+
+    logContainer.appendChild(list);
+}
+
+
 function loadDashboardData() {
-    fetch('http://localhost/savelife/get_dashboard_data.php')
+    fetch('get_dashboard_data.php')
     .then(res => res.json())
     .then(data => {
         donors = data.donors;
@@ -776,7 +813,7 @@ function viewAdminSection(type) {
                 html = `
                     <div class="hospitals-list">
                         ${dashboardData.pendingHospitals.map(h => {
-                            const certUrl = `http://localhost/savelife/uploads/certificates/${h.certificate}`;
+                            const certUrl = `uploads/certificates/${h.certificate}`;
                             return `
                                 <div class="hospital-card" style="background: white; padding: 20px; border-radius: 10px; margin-bottom: 15px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
                                     <h3 style="color: #e74c3c; margin-bottom: 10px;">${h.name}</h3>
@@ -853,7 +890,7 @@ function viewAdminSection(type) {
 function approveHospital(id) {
     if (!confirm('Are you sure you want to approve this hospital?')) return;
     
-    fetch('http://localhost/savelife/approve_hospital.php', {
+    fetch('approve_hospital.php', {
         method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
         body: new URLSearchParams({ id })
@@ -877,7 +914,7 @@ function approveHospital(id) {
 function rejectHospital(id) {
     if (!confirm('Are you sure you want to reject this hospital registration?')) return;
     
-    fetch('http://localhost/savelife/reject_hospital.php', {
+    fetch('reject_hospital.php', {
         method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
         body: new URLSearchParams({ id })
