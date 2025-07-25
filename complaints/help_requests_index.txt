@@ -1,0 +1,6 @@
+=== HELP REQUESTS INDEX ===
+Generated: 2025-07-25 23:37:36
+Format: [Timestamp] | Email | Filename | Preview
+================================================================================
+
+[2025-07-25 23:37:36] | user1@example.com | help_request_2025-07-25_23-37-36.txt | I am having trouble registering as a blood donor. The form keeps giving me an error message when I t...

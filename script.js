@@ -976,15 +976,77 @@ function submitHelpRequest(event) {
     event.preventDefault();
     const email = document.getElementById('help-email').value;
     const question = document.getElementById('help-question').value;
-    
-    alert('Thank you! We will get back to you soon.');
-    
 
-    document.getElementById('help-email').value = '';
-    document.getElementById('help-question').value = '';
-    
-    const helpPopup = document.getElementById('help-popup');
-    if (helpPopup) helpPopup.classList.remove('show');
+    // Validate input
+    if (!email || !question) {
+        alert('Please fill in both email and question fields.');
+        return;
+    }
+
+    // Additional validation
+    if (question.length < 10) {
+        alert('Please provide a more detailed question (minimum 10 characters).');
+        return;
+    }
+
+    if (question.length > 5000) {
+        alert('Question is too long (maximum 5000 characters).');
+        return;
+    }
+
+    // Get the submit button to show loading state
+    const submitButton = event.target.querySelector('button[type="submit"]');
+    const originalText = submitButton ? submitButton.textContent : 'Send';
+
+    if (submitButton) {
+        submitButton.textContent = 'Submitting...';
+        submitButton.disabled = true;
+    }
+
+    // Prepare data for submission
+    const formData = new FormData();
+    formData.append('email', email);
+    formData.append('question', question);
+
+    // Submit to PHP script
+    fetch('submit_help_request.php', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return response.json();
+    })
+    .then(data => {
+        if (data.status === 'success') {
+            alert('Thank you! Your help request has been submitted successfully. We will get back to you soon.');
+
+            // Clear the form
+            document.getElementById('help-email').value = '';
+            document.getElementById('help-question').value = '';
+
+            // Hide the help popup
+            const helpPopup = document.getElementById('help-popup');
+            if (helpPopup) helpPopup.classList.remove('show');
+
+            console.log('Help request saved to file:', data.filename);
+        } else {
+            throw new Error(data.message || 'Unknown error occurred');
+        }
+    })
+    .catch(error => {
+        console.error('Help request submission error:', error);
+        alert('Sorry, there was an error submitting your request. Please try again later.');
+    })
+    .finally(() => {
+        // Reset button state
+        if (submitButton) {
+            submitButton.textContent = originalText;
+            submitButton.disabled = false;
+        }
+    });
 }
 
 document.addEventListener('DOMContentLoaded', () => {
