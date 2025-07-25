@@ -95,21 +95,22 @@ function hospitalLogin(event) {
 
 function viewHospitalSection(type) {
     if (!dashboardData || !currentUser || currentUser.type !== 'hospital') return;
-    
+
     const section = document.querySelector('#hospital-dashboard .donors-section');
     if (!section) return;
     
-    const titleElement = section.querySelector('h2');
-    
+
+
     let html = '';
     let title = '';
-    
-   
+    let description = '';
+
     const hospitalRequests = dashboardData.bloodRequests.filter(r => r.hospitalEmail === currentUser.email);
     
     switch(type) {
         case 'blood-inventory':
             title = 'Blood Inventory Status';
+            description = 'Monitor your current blood stock levels across all blood types. This inventory helps you track available units and identify when to request additional blood supplies from donors.';
             html = `
                 <div class="blood-inventory">
                     <div style="background: white; padding: 20px; border-radius: 10px; margin-bottom: 15px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
@@ -173,6 +174,7 @@ function viewHospitalSection(type) {
             break;
         case 'donors':
             title = 'Available Donors';
+            description = 'Browse through our network of registered blood donors. You can view donor profiles, contact information, and blood types to find suitable matches for your hospital\'s needs.';
             if (dashboardData.donors.length === 0) {
                 html = `
                     <div class="no-donors">
@@ -199,6 +201,7 @@ function viewHospitalSection(type) {
             
         case 'requests':
             title = 'All My Blood Requests';
+            description = 'View a complete history of all blood requests submitted by your hospital. This includes pending, completed, and cancelled requests with detailed information about each submission.';
             if (hospitalRequests.length === 0) {
                 html = `
                     <div class="no-donors">
@@ -229,6 +232,7 @@ function viewHospitalSection(type) {
             
         case 'pending':
             title = 'Pending Blood Requests';
+            description = 'Track your currently active blood requests that are awaiting donor responses. These requests are being broadcast to matching donors in your area and require immediate attention.';
             const pendingRequests = hospitalRequests.filter(r => r.status === 'pending');
             if (pendingRequests.length === 0) {
                 html = `
@@ -260,6 +264,7 @@ function viewHospitalSection(type) {
             
         case 'completed':
             title = 'Successful Donations';
+            description = 'Celebrate your successful blood donation matches! This section shows completed requests where donors have successfully provided blood to your hospital, helping save lives in your community.';
             const completedRequests = hospitalRequests.filter(r => r.status === 'completed');
             if (completedRequests.length === 0) {
                 html = `
@@ -291,48 +296,68 @@ function viewHospitalSection(type) {
             
         default:
             title = 'Dashboard Overview';
+            description = 'Welcome to your Hospital Dashboard. Here you can manage blood requests, view available donors, and track your donation activities. Click on any stat card above to view detailed information.';
             html = `
                 <div class="no-donors">
                     <span style="font-size: 60px;">📊</span>
-                    <p>Click on a stat card above to view detailed information</p>
+                    <p>Select a stat card to view more information</p>
+                    <div class="map-link">
+                        <a href="hospital_map.html" class="btn btn-outline" style="margin-top: 20px;">
+                            <i class="fas fa-map-marker-alt" style="margin-right: 8px;"></i> View Blood Donor Map
+                        </a>
+                    </div>
                 </div>
             `;
     }
 
-   
-    if (titleElement) {
-        titleElement.textContent = title;
-    }
-    
-    
+    // Update content first
     const existingContent = section.querySelector('.no-donors, .donors-list, .hospitals-list, .requests-list');
     if (existingContent) {
         existingContent.outerHTML = html;
     } else {
-       
         const contentDiv = document.createElement('div');
         contentDiv.innerHTML = html;
         section.appendChild(contentDiv.firstElementChild);
+    }
+
+    // Update title and description after content update
+    const updatedTitleElement = section.querySelector('h2');
+    const updatedDescriptionElement = section.querySelector('h2 + p') || section.querySelector('p[style*="color: #666"]');
+
+    if (updatedTitleElement) {
+        updatedTitleElement.textContent = title;
+    }
+
+    if (updatedDescriptionElement) {
+        updatedDescriptionElement.textContent = description;
     }
 }
 
 
 function updateHospitalDashboard() {
     if (!currentUser || currentUser.type !== 'hospital') return;
-    
+
     const stats = document.querySelectorAll('#hospital-dashboard .stat-card .number');
-    if (stats.length >= 4) {
+    if (stats.length >= 5) {
         const hospitalRequests = bloodRequests.filter(r => r.hospitalEmail === currentUser.email);
         const pendingRequests = hospitalRequests.filter(r => r.status === 'pending');
         const completedRequests = hospitalRequests.filter(r => r.status === 'completed');
-        
-        stats[0].textContent = hospitalRequests.length; 
-        stats[1].textContent = pendingRequests.length; 
-        stats[2].textContent = donors.length; 
-        stats[3].textContent = completedRequests.length; 
+
+        stats[0].textContent = hospitalRequests.length;
+        stats[1].textContent = pendingRequests.length;
+        stats[2].textContent = donors.length;
+        stats[3].textContent = completedRequests.length;
+        stats[4].textContent = '25'; // Total blood inventory units
     }
 
-   
+    // Make sure to show the blood inventory section when clicking on the card
+    const bloodInventoryCard = document.querySelector('#hospital-dashboard .stat-card.purple');
+    if (bloodInventoryCard) {
+        bloodInventoryCard.addEventListener('click', function() {
+            viewHospitalSection('blood-inventory');
+        });
+    }
+
     viewHospitalSection('default');
 }
 
@@ -662,67 +687,7 @@ function loadDashboardData() {
     });
 }
 
-function updateHospitalDashboard() {
-    if (!currentUser || currentUser.type !== 'hospital') return;
-    
-    const stats = document.querySelectorAll('#hospital-dashboard .stat-card .number');
-    if (stats.length >= 5) {
-        const hospitalRequests = bloodRequests.filter(r => r.hospitalEmail === currentUser.email);
-        const pendingRequests = hospitalRequests.filter(r => r.status === 'pending');
-        
-        stats[0].textContent = hospitalRequests.length;
-        stats[1].textContent = pendingRequests.length;
-        stats[2].textContent = donors.length;
-        stats[3].textContent = hospitalRequests.filter(r => r.status === 'completed').length;
-        stats[4].textContent = '25'; // Total blood inventory units
-    }
 
-    // Make sure to show the blood inventory section when clicking on the card
-    const bloodInventoryCard = document.querySelector('#hospital-dashboard .stat-card.purple');
-    if (bloodInventoryCard) {
-        bloodInventoryCard.addEventListener('click', function() {
-            viewHospitalSection('blood-inventory');
-        });
-    }
-
-    const donorsSection = document.querySelector('#hospital-dashboard .donors-section');
-    if (donorsSection) {
-        const existingContent = donorsSection.querySelector('.no-donors, .donors-list');
-        
-        if (donors.length === 0) {
-            const html = `
-                <div class="no-donors">
-                    <span style="font-size: 60px;">👥</span>
-                    <p>No donors available</p>
-                </div>
-            `;
-            if (existingContent) {
-                existingContent.outerHTML = html;
-            } else {
-                donorsSection.innerHTML += html;
-            }
-        } else {
-            const html = `
-                <div class="donors-list">
-                    ${donors.map(d => `
-                        <div class="donor-card" style="background: white; padding: 20px; border-radius: 10px; margin-bottom: 15px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
-                            <h3 style="color: #e74c3c; margin-bottom: 10px;">${d.name}</h3>
-                            <p style="margin: 4px 0; color: #555;"><strong>Blood Type:</strong> ${d.bloodType}</p>
-                            <p style="margin: 4px 0; color: #555;"><strong>Phone:</strong> ${d.phone}</p>
-                            <p style="margin: 4px 0; color: #555;"><strong>Location:</strong> ${d.location}</p>
-                            <button class="btn btn-secondary" onclick="contactDonor('${d.phone}')" style="margin-top: 10px;">Contact</button>
-                        </div>
-                    `).join('')}
-                </div>
-            `;
-            if (existingContent) {
-                existingContent.outerHTML = html;
-            } else {
-                donorsSection.innerHTML += html;
-            }
-        }
-    }
-}
 
 function updateAdminDashboard() {
     if (!currentUser || currentUser.type !== 'admin') return;
