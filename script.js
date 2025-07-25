@@ -587,6 +587,40 @@ function createBloodRequest(event) {
     }
 }
 
+function sendAlertsToDonors(bloodType) {
+    const filteredDonors = donors.filter(d => {
+        return d.bloodType.toLowerCase() === bloodType.toLowerCase() &&
+               d.location === currentUser.location;
+             
+    });
+
+    
+    const logContainer = document.getElementById("alert-log");
+    logContainer.innerHTML = ""; // clear previous logs
+
+    if (filteredDonors.length === 0) {
+        logContainer.innerHTML = `<p>No matching donors found for blood type <strong>${bloodType}</strong> in your area.</p>`;
+        return;
+    }
+
+    const message = `🩸 Urgent need for ${bloodType} blood at ${currentUser.name}. Please help!`;
+
+    const list = document.createElement('ul');
+
+    filteredDonors.forEach(donor => {
+        const entry = document.createElement('li');
+        entry.innerHTML = `
+            ✔️ Alert to <strong>${donor.name}</strong> 
+            (<code>${donor.phone}</code>${donor.whatsapp ? `, WhatsApp: <code>${donor.whatsapp}</code>` : ''}) – 
+            Message: "<em>${message}</em>"
+        `;
+        list.appendChild(entry);
+    });
+
+    logContainer.appendChild(list);
+}
+
+
 function loadDashboardData() {
     fetch('http://localhost/savelife/get_dashboard_data.php')
     .then(res => res.json())
