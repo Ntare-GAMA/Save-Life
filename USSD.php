@@ -1,11 +1,24 @@
 <?php
-$sessionId   = $_POST["sessionId"];
-$serviceCode = $_POST["serviceCode"];
-$phoneNumber = $_POST["phoneNumber"];
-$text        = $_POST["text"];
+// Set response content type
+header('Content-type: text/plain');
 
+// Collect input
+$sessionId   = $_POST["sessionId"] ?? '';
+$serviceCode = $_POST["serviceCode"] ?? '';
+$phoneNumber = $_POST["phoneNumber"] ?? '';
+$text        = $_POST["text"] ?? '';
+
+// Split input into levels
 $levels = explode("*", $text);
 
+// Define blood types
+$bloodTypes = [
+    "1" => "A+", "2" => "A-", "3" => "B+",
+    "4" => "B-", "5" => "AB+", "6" => "AB-",
+    "7" => "O+", "8" => "O-"
+];
+
+// Menu logic
 switch (count($levels)) {
     case 1:
         if ($text == "") {
@@ -24,11 +37,12 @@ switch (count($levels)) {
 
     case 2:
         echo "CON Select your blood type:\n";
-        echo "1. A+\n2. A-\n3. B+\n4. B-\n5. AB+\n6. AB-\n7. O+\n8. O-";
+        foreach ($bloodTypes as $key => $value) {
+            echo "$key. $value\n";
+        }
         break;
 
     case 3:
-        $bloodTypes = ["1" => "A+", "2" => "A-", "3" => "B+", "4" => "B-", "5" => "AB+", "6" => "AB-", "7" => "O+", "8" => "O-"];
         $blood = $bloodTypes[$levels[2]] ?? null;
         if ($blood) {
             echo "CON Enter your location (e.g. Kigali, Kicukiro):";
@@ -38,11 +52,11 @@ switch (count($levels)) {
         break;
 
     case 4:
-        $name = $levels[1];
-        $blood = $bloodTypes[$levels[2]];
-        $location = $levels[3];
+        $name     = trim($levels[1]);
+        $blood    = $bloodTypes[$levels[2]] ?? 'Unknown';
+        $location = trim($levels[3]);
 
-        // Save to a file or database
+        // Sanitize & Save to a file
         $entry = "Name: $name | Phone: $phoneNumber | Blood Type: $blood | Location: $location\n";
         file_put_contents("donors.txt", $entry, FILE_APPEND);
 
@@ -50,6 +64,7 @@ switch (count($levels)) {
         break;
 
     default:
-        echo "END Invalid input.";
+        echo "END Something went wrong. Please try again.";
+        break;
 }
 ?>
