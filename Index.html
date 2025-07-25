@@ -182,7 +182,7 @@
                 <div class="footer-section links">
                     <h3>Quick Links</h3>
                     <ul>
-                        <a href="#">
+                        <a href="#" onclick="showPage('about-us')">
                             <li>About Us</li>
                         </a>
                         <a href="#">
@@ -584,6 +584,107 @@
             <div class="footer-bottom"
                 style="margin-top: 20px; text-align: center; padding: 10px; border-top: 1px solid #3a506b; color: #d3d3d3;">
                 &copy; 2025 Save Life
+            </div>
+        </div>
+    </div>
+
+    <!-- About Us Page -->
+    <div id="about-us" class="page hidden">
+        <div class="container">
+            <div class="about-us-content">
+                <div class="about-header">
+                    <span style="font-size: 40px;">❤️</span>
+                    <h1>About Save Life</h1>
+                    <p class="about-subtitle">Connecting Hearts, Saving Lives Through Blood Donation</p>
+                </div>
+
+                <div class="about-sections">
+                    <div class="about-section">
+                        <h2>Our Mission</h2>
+                        <p>Save Life is dedicated to bridging the critical gap between blood donors and hospitals in need. We believe that every drop of blood donated has the power to save lives, and our platform makes this life-saving connection possible through technology and compassion.</p>
+                    </div>
+
+                    <div class="about-section">
+                        <h2>What We Do</h2>
+                        <div class="features-grid">
+                            <div class="feature-item">
+                                <div class="feature-icon">🏥</div>
+                                <h3>Hospital Network</h3>
+                                <p>We connect verified hospitals with a network of willing blood donors, ensuring quick access to life-saving blood when it's needed most.</p>
+                            </div>
+                            <div class="feature-item">
+                                <div class="feature-icon">👥</div>
+                                <h3>Donor Community</h3>
+                                <p>Our platform brings together generous individuals who are ready to donate blood and make a difference in their communities.</p>
+                            </div>
+                            <div class="feature-item">
+                                <div class="feature-icon">🔔</div>
+                                <h3>Real-Time Alerts</h3>
+                                <p>Instant notifications ensure that donors are alerted when their blood type is urgently needed nearby.</p>
+                            </div>
+                            <div class="feature-item">
+                                <div class="feature-icon">🛡️</div>
+                                <h3>Secure Platform</h3>
+                                <p>We maintain the highest standards of security and privacy to protect both donors and hospitals.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="about-section">
+                        <h2>Our Impact</h2>
+                        <div class="impact-stats">
+                            <div class="impact-stat">
+                                <div class="stat-number">15,000+</div>
+                                <div class="stat-label">Registered Donors</div>
+                            </div>
+                            <div class="impact-stat">
+                                <div class="stat-number">5,000+</div>
+                                <div class="stat-label">Lives Saved</div>
+                            </div>
+                            <div class="impact-stat">
+                                <div class="stat-number">50+</div>
+                                <div class="stat-label">Partner Hospitals</div>
+                            </div>
+                            <div class="impact-stat">
+                                <div class="stat-number">24/7</div>
+                                <div class="stat-label">Emergency Support</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="about-section">
+                        <h2>Why Blood Donation Matters</h2>
+                        <p>Every two seconds, someone in the world needs blood. Whether it's for emergency surgery, cancer treatment, chronic illnesses, or traumatic injuries, blood donation is a critical component of healthcare. A single donation can save up to three lives, making every donor a true hero in their community.</p>
+
+                        <div class="blood-facts">
+                            <div class="fact-item">
+                                <strong>1 in 7</strong> people entering a hospital need blood
+                            </div>
+                            <div class="fact-item">
+                                <strong>38%</strong> of the population is eligible to donate blood
+                            </div>
+                            <div class="fact-item">
+                                <strong>Only 3%</strong> actually donate annually
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="about-section">
+                        <h2>Join Our Mission</h2>
+                        <p>Whether you're a hospital looking to ensure a steady blood supply or an individual ready to become a life-saving donor, Save Life is here to make the process simple, safe, and impactful.</p>
+
+                        <div class="cta-buttons">
+                            <button class="btn btn-primary" onclick="showPage('donor-register')">Become a Donor</button>
+                            <button class="btn btn-secondary" onclick="showPage('hospital-register')">Register Hospital</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="back-to-home">
+                    <button class="btn btn-outline" onclick="showPage('homepage')">
+                        <i class="fas fa-arrow-left"></i> Back to Home
+                    </button>
+                </div>
             </div>
         </div>
     </div>
