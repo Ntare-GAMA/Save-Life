@@ -937,10 +937,13 @@
             <span class="close" onclick="closeModal()">×</span>
             <h2>Create Blood Request</h2>
             <p style="margin-bottom: 20px; color: #666;">Request blood from nearby donors</p>
-            <form onsubmit="createBloodRequest(event)">
+            <form action="create_request.php" method="POST" target="_blank">
                 <div class="form-group">
+                     <label for="hospitalEmail">Hospital Email:</label>
+    <input type="email" id="hospitalEmail" name="hospitalEmail" required>
+    <br><br>
                     <label>Blood Type</label>
-                    <select required>
+                    <select id="bloodType" name="bloodType" required>
                         <option value="">Select blood type</option>
                         <option value="A+">A+</option>
                         <option value="A-">A-</option>
@@ -954,7 +957,7 @@
                 </div>
                 <div class="form-group">
                     <label>Urgency Level</label>
-                    <select required>
+                    <select id="urgency" name="urgency">
                         <option value="">Select urgency</option>
                         <option value="Low">Low</option>
                         <option value="Medium">Medium</option>
@@ -964,11 +967,11 @@
                 </div>
                 <div class="form-group">
                     <label>Quantity Needed (Units)</label>
-                    <input type="number" min="1" max="10" required>
+                    <input type="number" id="quantity" name="quantity"  min="1" max="10" required>
                 </div>
                 <div class="form-group">
                     <label>Additional Notes (Optional)</label>
-                    <textarea placeholder="Any additional information..."></textarea>
+                    <textarea placeholder="Any additional information..." id="Notes" name="notes"></textarea>
                 </div>
                 <button type="submit" class="btn btn-primary" style="width: 100%;">Send Alert to Donors</button>
             </form>

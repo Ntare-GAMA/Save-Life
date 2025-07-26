@@ -564,7 +564,7 @@ function hospitalRegister(event) {
     }
 }
 
-function createBloodRequest(event) {
+/*function createBloodRequest(event) {
     event.preventDefault();
     const form = event.target;
     
@@ -613,7 +613,7 @@ function createBloodRequest(event) {
             alert('Failed to send request. Please try again.');
         });
     }
-}
+}*/
 
 function sendAlertsToDonors(bloodType) {
     const filteredDonors = donors.filter(d => {
