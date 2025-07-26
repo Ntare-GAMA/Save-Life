@@ -1,37 +1,40 @@
 <?php
-// Set response content type
+// Return response in plain text
 header('Content-type: text/plain');
 
-// Collect input
+// 🔎 Debug: Log raw POST for troubleshooting
+file_put_contents("debug.txt", print_r($_POST, true), FILE_APPEND);
+
+// Collect input safely
 $sessionId   = $_POST["sessionId"] ?? '';
 $serviceCode = $_POST["serviceCode"] ?? '';
 $phoneNumber = $_POST["phoneNumber"] ?? '';
 $text        = $_POST["text"] ?? '';
 
-// Split input into levels
+// Split input steps
 $levels = explode("*", $text);
 
-// Define blood types
+// Blood types
 $bloodTypes = [
     "1" => "A+", "2" => "A-", "3" => "B+",
     "4" => "B-", "5" => "AB+", "6" => "AB-",
     "7" => "O+", "8" => "O-"
 ];
 
-// Menu logic
+// Start menu logic
 switch (count($levels)) {
     case 1:
-        if ($text == "") {
+        if ($text === "") {
             echo "CON Welcome to SaveLife 🩸\n";
             echo "Join our life-saving donor network.\n";
             echo "1. Register as Donor\n";
             echo "2. Exit";
-        } elseif ($text == "1") {
+        } elseif ($text === "1") {
             echo "CON Enter your full name:";
-        } elseif ($text == "2") {
+        } elseif ($text === "2") {
             echo "END Thank you for visiting SaveLife.";
         } else {
-            echo "END Invalid input.";
+            echo "END Invalid option.";
         }
         break;
 
@@ -47,7 +50,7 @@ switch (count($levels)) {
         if ($blood) {
             echo "CON Enter your location (e.g. Kigali, Kicukiro):";
         } else {
-            echo "END Invalid blood type selection.";
+            echo "END Invalid blood type.";
         }
         break;
 
@@ -56,11 +59,17 @@ switch (count($levels)) {
         $blood    = $bloodTypes[$levels[2]] ?? 'Unknown';
         $location = trim($levels[3]);
 
-        // Sanitize & Save to a file
+        // 📄 Log or save donor info to file
         $entry = "Name: $name | Phone: $phoneNumber | Blood Type: $blood | Location: $location\n";
-        file_put_contents("donors.txt", $entry, FILE_APPEND);
+        $file = "donors.txt";
 
-        echo "END Thank you $name ($blood)!\nYou're now registered with SaveLife 🩸";
+        if (is_writable(dirname(__FILE__))) {
+            file_put_contents($file, $entry, FILE_APPEND);
+            echo "END Thank you $name ($blood)!\nYou’re now registered with SaveLife 🩸";
+        } else {
+            echo "END System error: Cannot save info. Please try again later.";
+        }
+
         break;
 
     default:
