@@ -4,10 +4,10 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
 // Set headers for CORS and content type
-header('Content-Type: application/json');
 header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Methods: POST, GET, OPTIONS');
-header('Access-Control-Allow-Headers: Content-Type');
+header('Access-Control-Allow-Headers: Content-Type, X-Requested-With');
+header('Content-Type: application/json');
 
 // Handle preflight OPTIONS request
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
@@ -22,18 +22,29 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 }
 
 try {
+
+
     // Get POST data
     $email = $_POST['email'] ?? '';
     $question = $_POST['question'] ?? '';
-    
+
+    // Log received data for debugging
+    error_log("Received POST data - Email: '" . $email . "' (length: " . strlen($email) . "), Question length: " . strlen($question));
+    error_log("Email bytes: " . bin2hex($email));
+
     // Validate input
     if (empty($email) || empty($question)) {
-        throw new Exception('Email and question are required');
+        throw new Exception('Email and question are required. Received email: ' . $email . ', question length: ' . strlen($question));
     }
+
+    // Clean the email (remove any hidden characters)
+    $email = trim($email);
+    $email = filter_var($email, FILTER_SANITIZE_EMAIL);
 
     // Validate email format
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        throw new Exception('Invalid email format');
+        error_log("Email validation failed for: '" . $email . "' (cleaned)");
+        throw new Exception('Invalid email format: ' . $email);
     }
 
     // Sanitize input to prevent any potential issues
@@ -57,7 +68,8 @@ try {
     $complaintsDir = 'complaints';
     if (!is_dir($complaintsDir)) {
         if (!mkdir($complaintsDir, 0755, true)) {
-            throw new Exception('Failed to create complaints directory');
+            $error = error_get_last();
+            throw new Exception('Failed to create complaints directory: ' . ($error['message'] ?? 'Unknown error'));
         }
     }
     
@@ -108,9 +120,20 @@ try {
 } catch (Exception $e) {
     // Log error
     error_log("Help request submission error: " . $e->getMessage());
-    
-    // Return error response
-    http_response_code(500);
+
+    // Determine appropriate HTTP status code based on error type
+    $errorMessage = $e->getMessage();
+    $statusCode = 400; // Default to bad request for validation errors
+
+    // Check if it's a server error (file system, permissions, etc.)
+    if (strpos($errorMessage, 'Failed to create') !== false ||
+        strpos($errorMessage, 'Failed to save') !== false ||
+        strpos($errorMessage, 'directory') !== false) {
+        $statusCode = 500; // Internal server error
+    }
+
+    // Return error response with appropriate status code
+    http_response_code($statusCode);
     echo json_encode([
         'status' => 'error',
         'message' => $e->getMessage()

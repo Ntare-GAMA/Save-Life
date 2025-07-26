@@ -937,25 +937,63 @@ function logout() {
     if (heroSection) heroSection.classList.remove('hidden');
 }
 
+// Helper functions for help popup messages
+function showHelpMessage(message, type = 'info', duration = 5000) {
+    const messageDiv = document.getElementById('help-message');
+    if (!messageDiv) return;
+
+    // Clear existing classes and content
+    messageDiv.className = 'message';
+    messageDiv.textContent = message;
+
+    // Add type class and show
+    messageDiv.classList.add(type, 'show');
+
+    // Auto-hide after duration (except for success messages)
+    if (type !== 'success' && duration > 0) {
+        setTimeout(() => {
+            hideHelpMessage();
+        }, duration);
+    }
+}
+
+function hideHelpMessage() {
+    const messageDiv = document.getElementById('help-message');
+    if (!messageDiv) return;
+
+    messageDiv.classList.remove('show');
+    setTimeout(() => {
+        messageDiv.className = 'message';
+        messageDiv.textContent = '';
+    }, 300);
+}
+
 function submitHelpRequest(event) {
     event.preventDefault();
+    console.log('Help request submission started');
+
     const email = document.getElementById('help-email').value;
     const question = document.getElementById('help-question').value;
 
+    console.log('Email:', email, 'Question length:', question.length);
+
+    // Clear any existing messages
+    hideHelpMessage();
+
     // Validate input
     if (!email || !question) {
-        alert('Please fill in both email and question fields.');
+        showHelpMessage('Please fill in both email and question fields.', 'error');
         return;
     }
 
     // Additional validation
     if (question.length < 10) {
-        alert('Please provide a more detailed question (minimum 10 characters).');
+        showHelpMessage('Please provide a more detailed question (minimum 10 characters).', 'error');
         return;
     }
 
     if (question.length > 5000) {
-        alert('Question is too long (maximum 5000 characters).');
+        showHelpMessage('Question is too long (maximum 5000 characters).', 'error');
         return;
     }
 
@@ -974,27 +1012,51 @@ function submitHelpRequest(event) {
     formData.append('question', question);
 
     // Submit to PHP script
-    fetch('submit_help_request.php', {
+    console.log('Submitting help request...', {email, question});
+    fetch('submit_help_new.php', {
         method: 'POST',
-        body: formData
+        body: formData,
+        headers: {
+            'X-Requested-With': 'XMLHttpRequest'
+        }
     })
     .then(response => {
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        return response.json();
+        console.log('Response received:', response.status, response.statusText);
+        return response.text().then(text => {
+            console.log('Response text:', text);
+
+            if (!response.ok) {
+                // Try to parse error response
+                try {
+                    const errorData = JSON.parse(text);
+                    throw new Error(errorData.message || `HTTP error! status: ${response.status}`);
+                } catch (parseError) {
+                    throw new Error(`HTTP error! status: ${response.status} - ${text}`);
+                }
+            }
+
+            try {
+                return JSON.parse(text);
+            } catch (e) {
+                console.error('JSON parse error:', e);
+                throw new Error('Invalid JSON response: ' + text);
+            }
+        });
     })
     .then(data => {
         if (data.status === 'success') {
-            alert('Thank you! Your help request has been submitted successfully. We will get back to you soon.');
+            showHelpMessage('Thank you! Your help request has been submitted successfully. We will get back to you soon.', 'success', 0);
 
             // Clear the form
             document.getElementById('help-email').value = '';
             document.getElementById('help-question').value = '';
 
-            // Hide the help popup
-            const helpPopup = document.getElementById('help-popup');
-            if (helpPopup) helpPopup.classList.remove('show');
+            // Auto-hide the help popup after showing success message
+            setTimeout(() => {
+                const helpPopup = document.getElementById('help-popup');
+                if (helpPopup) helpPopup.classList.remove('show');
+                hideHelpMessage();
+            }, 3000);
 
             console.log('Help request saved to file:', data.filename);
         } else {
@@ -1003,7 +1065,21 @@ function submitHelpRequest(event) {
     })
     .catch(error => {
         console.error('Help request submission error:', error);
-        alert('Sorry, there was an error submitting your request. Please try again later.');
+        // Show user-friendly error message
+        let userFriendlyMessage = 'Sorry, there was an error submitting your request. Please try again later.';
+
+        // Convert technical errors to user-friendly messages
+        if (error.message.includes('Invalid email format')) {
+            userFriendlyMessage = 'Please enter a valid email address (e.g., example@gmail.com).';
+        } else if (error.message.includes('required')) {
+            userFriendlyMessage = 'Please fill in all required fields.';
+        } else if (error.message.includes('too long')) {
+            userFriendlyMessage = 'Your message is too long. Please shorten it and try again.';
+        } else if (error.message.includes('HTTP error')) {
+            userFriendlyMessage = 'Connection error. Please check your internet and try again.';
+        }
+
+        showHelpMessage(userFriendlyMessage, 'error');
     })
     .finally(() => {
         // Reset button state
@@ -1047,13 +1123,40 @@ document.addEventListener('DOMContentLoaded', () => {
         helpIcon.addEventListener('click', (e) => {
             e.stopPropagation();
             helpPopup.classList.toggle('show');
+            // Clear any existing messages when opening
+            if (helpPopup.classList.contains('show')) {
+                hideHelpMessage();
+            }
         });
 
         document.addEventListener('click', (e) => {
             if (!helpPopup.contains(e.target) && !helpIcon.contains(e.target)) {
                 helpPopup.classList.remove('show');
+                hideHelpMessage();
             }
         });
+
+        // Clear error messages when user starts typing
+        const helpEmail = document.getElementById('help-email');
+        const helpQuestion = document.getElementById('help-question');
+
+        if (helpEmail) {
+            helpEmail.addEventListener('input', () => {
+                const messageDiv = document.getElementById('help-message');
+                if (messageDiv && messageDiv.classList.contains('error')) {
+                    hideHelpMessage();
+                }
+            });
+        }
+
+        if (helpQuestion) {
+            helpQuestion.addEventListener('input', () => {
+                const messageDiv = document.getElementById('help-message');
+                if (messageDiv && messageDiv.classList.contains('error')) {
+                    hideHelpMessage();
+                }
+            });
+        }
     }
 
     document.addEventListener('keydown', (e) => {
