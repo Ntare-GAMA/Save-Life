@@ -79,6 +79,10 @@ The ER diagram ensures normalized relationships for scalability and integrity.
 
 ---
 
+## **Demo Video**
+
+-- https://www.loom.com/share/6da76511093e4f0d8083bfa00573bb71?sid=50320734-ec73-46e1-b661-ae7c74d3ecc8
+
 ## **Contact**
 
 For inquiries or collaboration:
