@@ -13,7 +13,7 @@ Save Life aims to make the process of connecting blood donors with hospitals fas
 | ---------------------- | ----------------- |
 | Uwimuhwe Anitha        | Project Manager   |
 | Kwizera Samuel         | Frontend Designer |
-| Gatanazi Brian         | Database Designer |
+| Brian Gatanazi          | Database Designer |
 | Ntare Gama             | Backend Designer  |
 | Mutabazi Ishimwe Bruno | Backend Designer  |
 | Barame Emely           | Frontend Designer |
