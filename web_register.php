@@ -14,6 +14,7 @@ if ($phoneNumber && $idType && $idNumber) {
     file_put_contents("registrations.txt", $logEntry, FILE_APPEND);
 
     // 📩 Simulate SMS notification (this is just part of the response, no real SMS sent)
+    
     echo json_encode([
         'status' => 'success',
         'message' => 'Registration complete. SMS sent to user!',
