@@ -13,7 +13,7 @@ Save Life aims to make the process of connecting blood donors with hospitals fas
 | ---------------------- | ----------------- |
 | Uwimuhwe Anitha        | Project Manager   |
 | Kwizera Samuel         | Frontend Designer |
-| Gatanazi Brian         | Database Designer |
+| Brian Gatanazi          | Database Designer |
 | Ntare Gama             | Backend Designer  |
 | Mutabazi Ishimwe Bruno | Backend Designer  |
 | Barame Emely           | Frontend Designer |
@@ -78,6 +78,17 @@ The ER diagram ensures normalized relationships for scalability and integrity.
 * ✅ Database Design (MySQL)
 
 ---
+
+## **Demo Video**
+
+-- https://www.loom.com/share/6da76511093e4f0d8083bfa00573bb71?sid=50320734-ec73-46e1-b661-ae7c74d3ecc8
+
+## ** How To use it **
+
+-Download and Install Xampp
+-Go to phpmyadmin
+-Create database and Rename it "savelife"
+-Import savelife.sql in it and you Done.
 
 ## **Contact**
 
