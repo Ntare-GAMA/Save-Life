@@ -1,17 +1,14 @@
 <?php
-// Return response in plain text
+
 header('Content-type: text/plain');
 
-// 🔎 Debug: Log raw POST for troubleshooting
 file_put_contents("debug.txt", print_r($_POST, true), FILE_APPEND);
 
-// Collect input safely
 $sessionId   = $_POST["sessionId"] ?? '';
 $serviceCode = $_POST["serviceCode"] ?? '';
 $phoneNumber = $_POST["phoneNumber"] ?? '';
 $text        = $_POST["text"] ?? '';
 
-// Split input steps
 $levels = explode("*", $text);
 
 // Blood types
@@ -21,11 +18,10 @@ $bloodTypes = [
     "7" => "O+", "8" => "O-"
 ];
 
-// Start menu logic
 switch (count($levels)) {
     case 1:
         if ($text === "") {
-            echo "CON Welcome to SaveLife 🩸\n";
+            echo "Welcome to SaveLife 🩸\n";
             echo "Join our life-saving donor network.\n";
             echo "1. Register as Donor\n";
             echo "2. Exit";
@@ -59,7 +55,6 @@ switch (count($levels)) {
         $blood    = $bloodTypes[$levels[2]] ?? 'Unknown';
         $location = trim($levels[3]);
 
-        // 📄 Log or save donor info to file
         $entry = "Name: $name | Phone: $phoneNumber | Blood Type: $blood | Location: $location\n";
         $file = "donors.txt";
 
@@ -73,7 +68,7 @@ switch (count($levels)) {
         break;
 
     default:
-        echo "END Something went wrong. Please try again.";
+        echo "Something went wrong. Please try again.";
         break;
 }
 ?>
